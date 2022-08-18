@@ -20,13 +20,6 @@ from typing import Any
 
 class SlackWebhook(Construct):
 
-    authorization: Authorization
-    connection: Connection
-    endpoint: StringParameter
-    api_destination: ApiDestination
-    target: ApiDestinationToTarget
-    rule: Rule
-
     def __init__(
             self,
             scope: Construct,
