@@ -18,7 +18,8 @@ def test_match_with_snapshot(snapshot):
     snapshot.assert_match(
         json.dumps(
             template.to_json(),
-            indent=4
+            indent=4,
+            sort_keys=True
         ),
         'network_stack_template.json'
     )
