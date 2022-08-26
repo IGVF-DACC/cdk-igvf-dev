@@ -15,5 +15,10 @@ def test_match_with_snapshot(snapshot):
     app = cdk.App()
     stack = NotificationStack(app, 'NotificationStack', env=ENVIRONMENT)
     template = Template.from_stack(stack)
-    snapshot.assert_match(json.dumps(
-        template.to_json(), indent=4), 'template.json')
+    snapshot.assert_match(
+        json.dumps(
+            template.to_json(),
+            indent=4
+        ),
+        'notification_stack_template.json'
+    )

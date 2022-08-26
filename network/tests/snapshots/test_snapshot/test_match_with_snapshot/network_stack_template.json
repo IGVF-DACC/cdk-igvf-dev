@@ -10,7 +10,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "Network/IgvfDevVpc"
+                        "Value": "NetworkStack/IgvfDevVpc"
                     }
                 ]
             }
@@ -18,11 +18,11 @@
         "IgvfDevVpcpublicSubnet1Subnet9548BC66": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "CidrBlock": "10.4.0.0/20",
                 "VpcId": {
                     "Ref": "IgvfDevVpcDE775698"
                 },
                 "AvailabilityZone": "dummy1a",
+                "CidrBlock": "10.4.0.0/20",
                 "MapPublicIpOnLaunch": true,
                 "Tags": [
                     {
@@ -35,7 +35,7 @@
                     },
                     {
                         "Key": "Name",
-                        "Value": "Network/IgvfDevVpc/publicSubnet1"
+                        "Value": "NetworkStack/IgvfDevVpc/publicSubnet1"
                     }
                 ]
             }
@@ -49,7 +49,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "Network/IgvfDevVpc/publicSubnet1"
+                        "Value": "NetworkStack/IgvfDevVpc/publicSubnet1"
                     }
                 ]
             }
@@ -83,11 +83,11 @@
         "IgvfDevVpcpublicSubnet2Subnet9329EDE6": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "CidrBlock": "10.4.16.0/20",
                 "VpcId": {
                     "Ref": "IgvfDevVpcDE775698"
                 },
                 "AvailabilityZone": "dummy1b",
+                "CidrBlock": "10.4.16.0/20",
                 "MapPublicIpOnLaunch": true,
                 "Tags": [
                     {
@@ -100,7 +100,7 @@
                     },
                     {
                         "Key": "Name",
-                        "Value": "Network/IgvfDevVpc/publicSubnet2"
+                        "Value": "NetworkStack/IgvfDevVpc/publicSubnet2"
                     }
                 ]
             }
@@ -114,7 +114,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "Network/IgvfDevVpc/publicSubnet2"
+                        "Value": "NetworkStack/IgvfDevVpc/publicSubnet2"
                     }
                 ]
             }
@@ -148,11 +148,11 @@
         "IgvfDevVpcpublicSubnet3Subnet9C7B6CE2": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "CidrBlock": "10.4.32.0/20",
                 "VpcId": {
                     "Ref": "IgvfDevVpcDE775698"
                 },
                 "AvailabilityZone": "dummy1c",
+                "CidrBlock": "10.4.32.0/20",
                 "MapPublicIpOnLaunch": true,
                 "Tags": [
                     {
@@ -165,7 +165,7 @@
                     },
                     {
                         "Key": "Name",
-                        "Value": "Network/IgvfDevVpc/publicSubnet3"
+                        "Value": "NetworkStack/IgvfDevVpc/publicSubnet3"
                     }
                 ]
             }
@@ -179,7 +179,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "Network/IgvfDevVpc/publicSubnet3"
+                        "Value": "NetworkStack/IgvfDevVpc/publicSubnet3"
                     }
                 ]
             }
@@ -213,11 +213,11 @@
         "IgvfDevVpcisolatedSubnet1SubnetC6AB41CC": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "CidrBlock": "10.4.48.0/20",
                 "VpcId": {
                     "Ref": "IgvfDevVpcDE775698"
                 },
                 "AvailabilityZone": "dummy1a",
+                "CidrBlock": "10.4.48.0/20",
                 "MapPublicIpOnLaunch": false,
                 "Tags": [
                     {
@@ -230,7 +230,7 @@
                     },
                     {
                         "Key": "Name",
-                        "Value": "Network/IgvfDevVpc/isolatedSubnet1"
+                        "Value": "NetworkStack/IgvfDevVpc/isolatedSubnet1"
                     }
                 ]
             }
@@ -244,7 +244,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "Network/IgvfDevVpc/isolatedSubnet1"
+                        "Value": "NetworkStack/IgvfDevVpc/isolatedSubnet1"
                     }
                 ]
             }
@@ -263,11 +263,11 @@
         "IgvfDevVpcisolatedSubnet2Subnet3399082E": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "CidrBlock": "10.4.64.0/20",
                 "VpcId": {
                     "Ref": "IgvfDevVpcDE775698"
                 },
                 "AvailabilityZone": "dummy1b",
+                "CidrBlock": "10.4.64.0/20",
                 "MapPublicIpOnLaunch": false,
                 "Tags": [
                     {
@@ -280,7 +280,7 @@
                     },
                     {
                         "Key": "Name",
-                        "Value": "Network/IgvfDevVpc/isolatedSubnet2"
+                        "Value": "NetworkStack/IgvfDevVpc/isolatedSubnet2"
                     }
                 ]
             }
@@ -294,7 +294,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "Network/IgvfDevVpc/isolatedSubnet2"
+                        "Value": "NetworkStack/IgvfDevVpc/isolatedSubnet2"
                     }
                 ]
             }
@@ -313,11 +313,11 @@
         "IgvfDevVpcisolatedSubnet3Subnet40474C6F": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "CidrBlock": "10.4.80.0/20",
                 "VpcId": {
                     "Ref": "IgvfDevVpcDE775698"
                 },
                 "AvailabilityZone": "dummy1c",
+                "CidrBlock": "10.4.80.0/20",
                 "MapPublicIpOnLaunch": false,
                 "Tags": [
                     {
@@ -330,7 +330,7 @@
                     },
                     {
                         "Key": "Name",
-                        "Value": "Network/IgvfDevVpc/isolatedSubnet3"
+                        "Value": "NetworkStack/IgvfDevVpc/isolatedSubnet3"
                     }
                 ]
             }
@@ -344,7 +344,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "Network/IgvfDevVpc/isolatedSubnet3"
+                        "Value": "NetworkStack/IgvfDevVpc/isolatedSubnet3"
                     }
                 ]
             }
@@ -366,7 +366,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "Network/IgvfDevVpc"
+                        "Value": "NetworkStack/IgvfDevVpc"
                     }
                 ]
             }

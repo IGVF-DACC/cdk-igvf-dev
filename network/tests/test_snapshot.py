@@ -13,7 +13,12 @@ ENVIRONMENT = cdk.Environment(
 
 def test_match_with_snapshot(snapshot):
     app = cdk.App()
-    stack = NetworkStack(app, 'Network', env=ENVIRONMENT)
+    stack = NetworkStack(app, 'NetworkStack', env=ENVIRONMENT)
     template = Template.from_stack(stack)
-    snapshot.assert_match(json.dumps(
-        template.to_json(), indent=4), 'template.json')
+    snapshot.assert_match(
+        json.dumps(
+            template.to_json(),
+            indent=4
+        ),
+        'network_stack_template.json'
+    )
