@@ -8,7 +8,7 @@ $ pip install -r requirements-dev.txt
 $ mypy --strict .
 ```
 
-## Recreating snapshots
+## Updating snapshots
 When making changes review snapshot test failures, and when happy with changes update snapshots:
 ```bash
 $ pytest --snapshot-update
