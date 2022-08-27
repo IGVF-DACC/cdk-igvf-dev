@@ -11,7 +11,7 @@ from aws_cdk.aws_lambda import Runtime
 from aws_cdk.aws_events import Rule
 from aws_cdk.aws_events import Schedule
 
-from aws_cdk.aws_event_targets import SfnStateMachine
+from aws_cdk.aws_events_targets import SfnStateMachine
 
 from aws_cdk.aws_stepfunctions import Condition
 from aws_cdk.aws_stepfunctions import Choice
