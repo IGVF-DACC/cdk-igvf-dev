@@ -1,1 +1,3 @@
-# Serverless microservice that automatically cleans up demo stacks.
+## Cleaner
+
+Serverless microservice that automatically cleans up demo stacks.
