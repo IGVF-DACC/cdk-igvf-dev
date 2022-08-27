@@ -177,9 +177,9 @@ class DemoCleaner(Stack):
             result_path='$.iterator',
         )
 
-        wait_fifteen_minutes = Wait(
+        wait_ten_minutes = Wait(
             self,
-            'WaitfifteenMinutes',
+            'WaitTenMinutes',
             time=WaitTime.duration(
                 Duration.minutes(10)
             )
@@ -241,7 +241,7 @@ class DemoCleaner(Stack):
         clean_up_routine = increment_counter.next(
             delete_stack
         ).next(
-            wait_fifteen_minutes
+            wait_ten_minutes
         ).next(
             does_stack_exist
         ).next(
