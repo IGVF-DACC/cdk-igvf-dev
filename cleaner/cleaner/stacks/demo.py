@@ -252,7 +252,7 @@ class DemoCleaner(Stack):
             self,
             'MapStacks',
             items_path='$.stacks_to_delete',
-            max_concurrency=5,
+            max_concurrency=50,
             parameters={
                 'stack_to_delete.$': '$$.Map.Item.Value',
                 'iterator.$': '$.iterator'
