@@ -181,7 +181,7 @@ class DemoCleaner(Stack):
             self,
             'WaitSixMinutes',
             time=WaitTime.duration(
-                Duration.minutes(1)
+                Duration.minutes(6)
             )
         )
 
