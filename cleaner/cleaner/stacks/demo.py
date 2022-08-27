@@ -181,7 +181,7 @@ class DemoCleaner(Stack):
             self,
             'WaitfifteenMinutes',
             time=WaitTime.duration(
-                Duration.minutes(15)
+                Duration.minutes(10)
             )
         )
 
@@ -283,7 +283,7 @@ class DemoCleaner(Stack):
             self,
             'CleanUpDemoStacks',
             schedule=Schedule.rate(
-                Duration.hours(12)
+                Duration.hours(8)
             ),
             targets=[
                 state_machine_target
