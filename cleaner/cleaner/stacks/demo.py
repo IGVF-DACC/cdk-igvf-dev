@@ -283,7 +283,7 @@ class DemoCleaner(Stack):
             self,
             'CleanUpDemoStacks',
             schedule=Schedule.rate(
-                Duration.hours(8)
+                Duration.hours(12)
             ),
             targets=[
                 state_machine_target
