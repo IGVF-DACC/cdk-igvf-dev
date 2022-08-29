@@ -63,7 +63,7 @@ jobs:
       run: pytest
       working-directory: ./network
 
-   test-cleaner:
+  test-cleaner:
     needs: lint
     runs-on: ubuntu-latest
     strategy:
