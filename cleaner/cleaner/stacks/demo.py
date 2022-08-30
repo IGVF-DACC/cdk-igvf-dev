@@ -86,7 +86,7 @@ class DemoCleaner(Stack):
 
         send_slack_notification = EventBridgePutEvents(
             self,
-            'SendSlackNotiication',
+            'SendSlackNotification',
             entries=[
                 EventBridgePutEventsEntry(
                     detail_type=JsonPath.string_at('$.detailType'),
