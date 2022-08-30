@@ -663,8 +663,7 @@ def test_lambdas_cloudformation_stacks_get_stack_name(raw_stacks):
 
 def test_lambdas_cloudformation_stacks_get_creation_time(raw_stacks):
     from cleaner.lambdas.cloudformation.stacks import get_creation_time
-    print(str(get_creation_time(raw_stacks[0])))
-    assert str(get_creation_time(raw_stacks[0])) == '2022-08-29T21:44:28.625000+00:00'
+    assert str(get_creation_time(raw_stacks[0])) == '2022-08-29 21:44:28.625000+00:00'
 
 
 def test_lambdas_cloudformation_stacks_try_parse_time_to_live_hours_tag():
@@ -721,17 +720,54 @@ def test_lambdas_cloudformation_stacks_filter_stacks_living_longer_than_time_to_
     assert len(filtered_stacks) == 5
 
 
-def test_lambdas_cloudformation_stacks_get_stacks_to_delete_because_of_time_to_live_hours_tag(raw_stacks, mocker):
+@mock_cloudformation
+def test_lambdas_cloudformation_stacks_get_stacks_to_delete_because_of_time_to_live_hours_tag(aws_credentials, raw_stacks, mocker):
     import datetime
     from dateutil.tz import tzutc
     from cleaner.lambdas.cloudformation.stacks import get_stacks_to_delete_because_of_time_to_live_hours_tag
     patched_current_time = mocker.patch('cleaner.lambdas.cloudformation.stacks.get_current_time')
     patched_current_time.return_value = datetime.datetime(2022, 9, 4, 21, 44, 28, 625000, tzinfo=tzutc())
+    patched_stacks = mocker.patch('cleaner.lambdas.cloudformation.stacks.get_all_stacks')
+    patched_stacks.return_value = raw_stacks
+    stacks_to_delete = get_stacks_to_delete_because_of_time_to_live_hours_tag()
+    assert len(stacks_to_delete) == 5
 
 
-def test_lambdas_cloudformation_stacks_get_stack_names_from_stacks():
-    assert False
+def test_lambdas_cloudformation_stacks_get_stack_names_from_stacks(raw_stacks):
+    from cleaner.lambdas.cloudformation.stacks import get_stack_names_from_stacks
+    assert get_stack_names_from_stacks(raw_stacks) == [
+        'igvf-ui-IGVF-246-remove-uuid-as-unique-key-for-treatments-DeployDevelopment-FrontendStack',
+        'igvf-ui-IGVF-246-remove-uuid-as-unique-key-for-treatments-DemoDeploymentPipelineStack',
+        'igvfd-IGVF-t-BackendStack',
+        'igvfd-IGVF-246-remove-uuid-as-unique-key-for-treatments-DeployDevelopment-PostgresStack',
+        'igvfd-IGVF-246-remove-uuid-as-unique-key-for-treatments-DemoDeploymentPipelineStack',
+        'ADemoCleaner',
+        'igvfd-dev-PipelineStack',
+        'igvf-ui-dev-FrontendStack',
+        'igvf-ui-dev-PipelineStack',
+        'igvfd-dev-BackendStack',
+        'igvfd-dev-PostgresStack',
+        'igvfd-dev-ContinuousIntegrationStack',
+        'ationStack',
+        'astack',
+        'cdet'
+    ]
 
 
-def test_lambdas_cloudformation_stacks_get_stacks_to_delete():
-    assert False
+@mock_cloudformation
+def test_lambdas_cloudformation_stacks_get_stacks_to_delete(aws_credentials, raw_stacks, mocker):
+    import datetime
+    from dateutil.tz import tzutc
+    from cleaner.lambdas.cloudformation.stacks import get_stacks_to_delete
+    patched_current_time = mocker.patch('cleaner.lambdas.cloudformation.stacks.get_current_time')
+    patched_current_time.return_value = datetime.datetime(2022, 9, 4, 21, 44, 28, 625000, tzinfo=tzutc())
+    patched_stacks = mocker.patch('cleaner.lambdas.cloudformation.stacks.get_all_stacks')
+    patched_stacks.return_value = raw_stacks
+    stacks_to_delete = get_stacks_to_delete({}, {})
+    assert list(sorted(stacks_to_delete)) == list(sorted([
+        'igvfd-IGVF-t-BackendStack',
+        'igvfd-IGVF-246-remove-uuid-as-unique-key-for-treatments-DemoDeploymentPipelineStack',
+        'igvf-ui-IGVF-246-remove-uuid-as-unique-key-for-treatments-DemoDeploymentPipelineStack',
+        'igvfd-IGVF-246-remove-uuid-as-unique-key-for-treatments-DeployDevelopment-PostgresStack',
+        'igvf-ui-IGVF-246-remove-uuid-as-unique-key-for-treatments-DeployDevelopment-FrontendStack'
+    ]))
