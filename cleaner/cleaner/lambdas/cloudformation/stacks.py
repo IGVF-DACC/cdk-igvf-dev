@@ -91,7 +91,7 @@ def try_parse_time_to_live_hours_tag(tag):
     try:
         return int(tag['Value'])
     except ValueError:
-        logger.warn('Tag value not int')
+        logger.warning('Tag value not int')
 
 
 def get_current_time():
