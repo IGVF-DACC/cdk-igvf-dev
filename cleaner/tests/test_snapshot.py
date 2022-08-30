@@ -22,7 +22,6 @@ def test_match_with_snapshot(snapshot):
         env=ENVIRONMENT
     )
     template = Template.from_stack(stack)
-    print(template)
     snapshot.assert_match(
         json.dumps(
             template.to_json(),
