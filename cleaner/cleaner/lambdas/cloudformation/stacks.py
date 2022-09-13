@@ -3,6 +3,7 @@ import logging
 
 from datetime import datetime
 from datetime import timezone
+from zoneinfo import ZoneInfo
 
 
 logging.basicConfig(level=logging.INFO, force=True)
@@ -26,6 +27,7 @@ OKAY_STATUSES = [
 
 
 TIME_TO_LIVE_HOURS = 'time-to-live-hours'
+TURN_OFF_ON_FRIDAY_NIGHT = 'turn-off-on-friday-night'
 
 SECONDS_IN_AN_HOUR = 3600
 
@@ -65,10 +67,16 @@ def get_time_to_live_hours_tag_or_none(stack):
     return get_tag_by_key(stack, TIME_TO_LIVE_HOURS)
 
 
+def get_turn_off_on_friday_night_tag_or_none(stack):
+    return get_tag_by_key(stack, TURN_OFF_ON_FRIDAY_NIGHT)
+
+
 def stack_has_time_to_live_hours_tag(stack):
-    if get_time_to_live_hours_tag_or_none(stack) is not None:
-        return True
-    return False
+    return get_time_to_live_hours_tag_or_none(stack) is not None
+
+
+def stack_has_turn_off_on_friday_night_tag(stack):
+    return get_turn_off_on_friday_night_tag_or_none(stack) is not None
 
 
 def filter_stacks_with_time_to_live_hours_tag(stacks):
@@ -76,6 +84,14 @@ def filter_stacks_with_time_to_live_hours_tag(stacks):
         stack
         for stack in stacks
         if stack_has_time_to_live_hours_tag(stack)
+    ]
+
+
+def filter_stacks_with_turn_off_on_friday_night_tag(stacks):
+    return [
+        stack
+        for stack in stacks
+        if stack_has_turn_off_on_friday_night_tag(stack)
     ]
 
 
@@ -94,8 +110,8 @@ def try_parse_time_to_live_hours_tag(tag):
         logger.warning('Tag value not int')
 
 
-def get_current_time():
-    return datetime.now(timezone.utc)
+def get_current_time(timezone=timezone.utc):
+    return datetime.now(timezone)
 
 
 def log_time_info(now, then, time_to_live_hours, hours_alive):
@@ -143,6 +159,19 @@ def filter_stacks_living_longer_than_time_to_live_hours(stacks):
     ]
 
 
+def filter_stacks_by_turn_off_on_friday_night_is_yes(stacks):
+    return [
+        stack
+        for stack in stacks
+        if get_turn_off_on_friday_night_tag_or_none(stack) == 'yes'
+    ]
+
+
+def is_it_friday_night_in_LA():
+    now_pacific = get_current_time(ZoneInfo('US/Pacific'))
+    return now_pacific.weekday() == 5 and now_pacific.hour < 7
+
+
 def get_stacks_to_delete_because_of_time_to_live_hours_tag():
     client = get_cloudformation_client()
     paginator = get_describe_stacks_paginator(client)
@@ -151,6 +180,19 @@ def get_stacks_to_delete_because_of_time_to_live_hours_tag():
     stacks = filter_stacks_with_time_to_live_hours_tag(stacks)
     stacks = filter_stacks_living_longer_than_time_to_live_hours(stacks)
     return stacks
+
+
+def get_stacks_to_delete_because_it_is_friday_night():
+    if not is_it_friday_night_in_LA():
+        return []
+    else:
+        client = get_cloudformation_client()
+        paginator = get_describe_stacks_paginator(client)
+        stacks = get_all_stacks(paginator)
+        stacks = filter_stacks_by_statuses(stacks)
+        stacks = filter_stacks_with_turn_off_on_friday_night_tag(stacks)
+        stacks = filter_stacks_by_turn_off_on_friday_night_is_yes(stacks)
+        return stacks
 
 
 def get_stack_names_from_stacks(stacks):

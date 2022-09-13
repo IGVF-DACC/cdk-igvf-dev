@@ -731,6 +731,28 @@ def test_lambdas_cloudformation_stacks_filter_stacks_living_longer_than_time_to_
     assert len(filtered_stacks) == 5
 
 
+def test_lambdas_cloudformation_stacks_is_it_friday_night_in_LA_it_is_not(mocker):
+    import datetime
+    from zoneinfo import ZoneInfo
+    from cleaner.lambdas.cloudformation.stacks import is_it_friday_night_in_LA
+    patched_current_time = mocker.patch(
+        'cleaner.lambdas.cloudformation.stacks.get_current_time')
+    patched_current_time.return_value = datetime.datetime(
+        2022, 9, 13, 15, 4, 30, 213339, tzinfo=ZoneInfo('US/Pacific'))
+    assert is_it_friday_night_in_LA() == False
+
+
+def test_lambdas_cloudformation_stacks_is_it_friday_night_in_LA_it_is(mocker):
+    import datetime
+    from zoneinfo import ZoneInfo
+    from cleaner.lambdas.cloudformation.stacks import is_it_friday_night_in_LA
+    patched_current_time = mocker.patch(
+        'cleaner.lambdas.cloudformation.stacks.get_current_time')
+    patched_current_time.return_value = datetime.datetime(
+        2022, 9, 17, 2, 2, 22,  222222, tzinfo=ZoneInfo('US/Pacific'))
+    assert is_it_friday_night_in_LA() == True
+
+
 @mock_cloudformation
 def test_lambdas_cloudformation_stacks_get_stacks_to_delete_because_of_time_to_live_hours_tag(aws_credentials, raw_stacks, mocker):
     import datetime
