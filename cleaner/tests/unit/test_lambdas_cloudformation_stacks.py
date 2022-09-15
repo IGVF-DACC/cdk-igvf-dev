@@ -809,6 +809,22 @@ def test_lambdas_cloudformation_stacks_get_stacks_to_delete_because_of_time_to_l
     assert len(stacks_to_delete) == 5
 
 
+@mock_cloudformation
+def test_lambdas_cloudformation_stacks_get_stacks_to_delete_because_turn_off_on_friday_night_tag(aws_credentials, raw_stacks, mocker):
+    import datetime
+    from dateutil.tz import tzutc
+    from cleaner.lambdas.cloudformation.stacks import get_stacks_to_delete_because_it_is_friday_night
+    patched_current_time = mocker.patch(
+        'cleaner.lambdas.cloudformation.stacks.get_current_time')
+    patched_current_time.return_value = datetime.datetime(
+        2022, 9, 4, 21, 44, 28, 625000, tzinfo=tzutc())
+    patched_stacks = mocker.patch(
+        'cleaner.lambdas.cloudformation.stacks.get_all_stacks')
+    patched_stacks.return_value = raw_stacks
+    stacks_to_delete = get_stacks_to_delete_because_it_is_friday_night()
+    assert len(stacks_to_delete) == 0
+
+
 def test_lambdas_cloudformation_stacks_get_stack_names_from_stacks(raw_stacks):
     from cleaner.lambdas.cloudformation.stacks import get_stack_names_from_stacks
     assert get_stack_names_from_stacks(raw_stacks) == [
