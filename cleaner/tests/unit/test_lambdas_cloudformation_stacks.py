@@ -718,10 +718,10 @@ def test_lambdas_cloudformation_stacks_try_parse_time_to_live_hours_tag():
     assert try_parse_time_to_live_hours_tag(tag) is None
 
 
-def test_lambdas_cloudformation_stacks_get_current_time():
-    from cleaner.lambdas.cloudformation.stacks import get_current_time
+def test_lambdas_cloudformation_stacks_get_current_utc_time():
+    from cleaner.lambdas.cloudformation.stacks import get_current_utc_time
     import datetime
-    now = get_current_time()
+    now = get_current_utc_time()
     assert now.tzinfo == datetime.timezone.utc
 
 
@@ -729,9 +729,9 @@ def test_lambdas_cloudformation_stacks_time_to_live_hours_exceeded(mocker):
     import datetime
     from dateutil.tz import tzutc
     from cleaner.lambdas.cloudformation.stacks import time_to_live_hours_exceeded
-    from cleaner.lambdas.cloudformation.stacks import get_current_time
+    from cleaner.lambdas.cloudformation.stacks import get_current_utc_time
     patched_current_time = mocker.patch(
-        'cleaner.lambdas.cloudformation.stacks.get_current_time')
+        'cleaner.lambdas.cloudformation.stacks.get_current_utc_time')
     patched_current_time.return_value = datetime.datetime(
         2022, 8, 29, 21, 44, 28, 625000, tzinfo=tzutc())
     creation_time = datetime.datetime(
@@ -745,7 +745,7 @@ def test_lambdas_cloudformation_stacks_stack_is_alive_longer_than_time_to_live_h
     from dateutil.tz import tzutc
     from cleaner.lambdas.cloudformation.stacks import stack_is_alive_longer_than_time_to_live_hours
     patched_current_time = mocker.patch(
-        'cleaner.lambdas.cloudformation.stacks.get_current_time')
+        'cleaner.lambdas.cloudformation.stacks.get_current_utc_time')
     patched_current_time.return_value = datetime.datetime(
         2022, 8, 29, 21, 44, 28, 625000, tzinfo=tzutc())
     assert not stack_is_alive_longer_than_time_to_live_hours(raw_stacks[0])
@@ -760,7 +760,7 @@ def test_lambdas_cloudformation_stacks_filter_stacks_living_longer_than_time_to_
     from cleaner.lambdas.cloudformation.stacks import filter_stacks_living_longer_than_time_to_live_hours
     from cleaner.lambdas.cloudformation.stacks import filter_stacks_with_time_to_live_hours_tag
     patched_current_time = mocker.patch(
-        'cleaner.lambdas.cloudformation.stacks.get_current_time')
+        'cleaner.lambdas.cloudformation.stacks.get_current_utc_time')
     patched_current_time.return_value = datetime.datetime(
         2022, 9, 4, 21, 44, 28, 625000, tzinfo=tzutc())
     filtered_stacks = filter_stacks_living_longer_than_time_to_live_hours(
@@ -776,7 +776,7 @@ def test_lambdas_cloudformation_stacks_is_it_friday_night_in_LA_it_is_not(mocker
     from zoneinfo import ZoneInfo
     from cleaner.lambdas.cloudformation.stacks import is_it_friday_night_in_LA
     patched_current_time = mocker.patch(
-        'cleaner.lambdas.cloudformation.stacks.get_current_time')
+        'cleaner.lambdas.cloudformation.stacks.get_current_pacific_time')
     patched_current_time.return_value = datetime.datetime(
         2022, 9, 13, 15, 4, 30, 213339, tzinfo=ZoneInfo('US/Pacific'))
     assert is_it_friday_night_in_LA() == False
@@ -787,7 +787,7 @@ def test_lambdas_cloudformation_stacks_is_it_friday_night_in_LA_it_is(mocker):
     from zoneinfo import ZoneInfo
     from cleaner.lambdas.cloudformation.stacks import is_it_friday_night_in_LA
     patched_current_time = mocker.patch(
-        'cleaner.lambdas.cloudformation.stacks.get_current_time')
+        'cleaner.lambdas.cloudformation.stacks.get_current_pacific_time')
     patched_current_time.return_value = datetime.datetime(
         2022, 9, 17, 2, 2, 22,  222222, tzinfo=ZoneInfo('US/Pacific'))
     assert is_it_friday_night_in_LA() == True
@@ -799,7 +799,7 @@ def test_lambdas_cloudformation_stacks_get_stacks_to_delete_because_of_time_to_l
     from dateutil.tz import tzutc
     from cleaner.lambdas.cloudformation.stacks import get_stacks_to_delete_because_of_time_to_live_hours_tag
     patched_current_time = mocker.patch(
-        'cleaner.lambdas.cloudformation.stacks.get_current_time')
+        'cleaner.lambdas.cloudformation.stacks.get_current_utc_time')
     patched_current_time.return_value = datetime.datetime(
         2022, 9, 4, 21, 44, 28, 625000, tzinfo=tzutc())
     patched_stacks = mocker.patch(
@@ -812,12 +812,12 @@ def test_lambdas_cloudformation_stacks_get_stacks_to_delete_because_of_time_to_l
 @mock_cloudformation
 def test_lambdas_cloudformation_stacks_get_stacks_to_delete_because_turn_off_on_friday_night_tag(aws_credentials, raw_stacks, mocker):
     import datetime
-    from dateutil.tz import tzutc
+    from zoneinfo import ZoneInfo
     from cleaner.lambdas.cloudformation.stacks import get_stacks_to_delete_because_it_is_friday_night
     patched_current_time = mocker.patch(
-        'cleaner.lambdas.cloudformation.stacks.get_current_time')
+        'cleaner.lambdas.cloudformation.stacks.get_current_pacific_time')
     patched_current_time.return_value = datetime.datetime(
-        2022, 9, 4, 21, 44, 28, 625000, tzinfo=tzutc())
+        2022, 9, 4, 21, 44, 28, 625000, tzinfo=ZoneInfo('US/Pacific'))
     patched_stacks = mocker.patch(
         'cleaner.lambdas.cloudformation.stacks.get_all_stacks')
     patched_stacks.return_value = raw_stacks
@@ -852,7 +852,7 @@ def test_lambdas_cloudformation_stacks_get_stacks_to_delete(aws_credentials, raw
     from dateutil.tz import tzutc
     from cleaner.lambdas.cloudformation.stacks import get_stacks_to_delete
     patched_current_time = mocker.patch(
-        'cleaner.lambdas.cloudformation.stacks.get_current_time')
+        'cleaner.lambdas.cloudformation.stacks.get_current_utc_time')
     patched_current_time.return_value = datetime.datetime(
         2022, 9, 4, 21, 44, 28, 625000, tzinfo=tzutc())
     patched_stacks = mocker.patch(

@@ -30,6 +30,7 @@ TIME_TO_LIVE_HOURS = 'time-to-live-hours'
 TURN_OFF_ON_FRIDAY_NIGHT = 'turn-off-on-friday-night'
 
 SECONDS_IN_AN_HOUR = 3600
+SATURDAY_WEEKDAY_NUMBER = 5
 
 
 def get_cloudformation_client():
@@ -110,13 +111,25 @@ def try_parse_time_to_live_hours_tag(tag):
         logger.warning('Tag value not int')
 
 
-def get_current_time(timezone=timezone.utc):
-    return datetime.now(timezone)
+def get_current_utc_time():
+    return datetime.now(timezone.utc)
+
+
+def get_current_pacific_time():
+    return datetime.now(ZoneInfo('US/Pacific'))
+
+
+def is_saturday(now):
+    return now.weekday() == SATURDAY_WEEKDAY_NUMBER
+
+
+def is_before_seven_in_the_morning(now):
+    return now.hour < 7
 
 
 def is_it_friday_night_in_LA():
-    now_pacific = get_current_time(ZoneInfo('US/Pacific'))
-    return now_pacific.weekday() == 5 and now_pacific.hour < 7
+    now_pacific = get_current_pacific_time()
+    return is_saturday(now_pacific) and is_before_seven_in_the_morning(now_pacific)
 
 
 def log_time_info(now, then, time_to_live_hours, hours_alive):
@@ -127,7 +140,7 @@ def log_time_info(now, then, time_to_live_hours, hours_alive):
 
 
 def time_to_live_hours_exceeded(creation_time, time_to_live_hours):
-    now = get_current_time()
+    now = get_current_utc_time()
     then = creation_time
     delta = now - then
     hours_alive = int(delta.total_seconds() // SECONDS_IN_AN_HOUR)
