@@ -36,7 +36,7 @@
             "Properties": {
                 "Code": {
                     "S3Bucket": "cdk-hnb659fds-assets-testing-testing",
-                    "S3Key": "7ef730a9fbf1882149b862fbc6d30e66b5d813d5e623f1c06c6b9cf8ccaea605.zip"
+                    "S3Key": "b7f4f68c35bb25a7082152c1cdcc37c0a2d420a7a3af64014d79212321751362.zip"
                 },
                 "Handler": "stacks.get_stacks_to_delete",
                 "Role": {
