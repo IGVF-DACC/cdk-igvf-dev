@@ -725,6 +725,14 @@ def test_lambdas_cloudformation_stacks_get_current_utc_time():
     assert now.tzinfo == datetime.timezone.utc
 
 
+def test_lambdas_cloudformation_stacks_get_current_pacific_time():
+    from cleaner.lambdas.cloudformation.stacks import get_current_pacific_time
+    import datetime
+    from zoneinfo import ZoneInfo
+    now = get_current_pacific_time()
+    assert now.tzinfo == ZoneInfo('US/Pacific')
+
+
 def test_lambdas_cloudformation_stacks_time_to_live_hours_exceeded(mocker):
     import datetime
     from dateutil.tz import tzutc
