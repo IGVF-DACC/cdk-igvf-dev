@@ -195,20 +195,22 @@ def get_stacks_to_delete_because_of_time_to_live_hours_tag():
     return stacks
 
 
-def get_stacks_to_delete_because_it_is_friday_night():
-    if not is_it_friday_night_in_LA():
-        logger.info(
-            'It is not Friday night, not deleting any stacks on that basis.')
-        return []
+def maybe_get_stacks_to_delete_because_it_is_friday_night():
+    if is_it_friday_night_in_LA():
+        logger.info('It is Friday night, getting stacks to delete!')
+        return get_stacks_to_delete_because_it_is_friday_night()
     else:
-        logger.info('It is Friday night, checking for stacks to delete.')
-        client = get_cloudformation_client()
-        paginator = get_describe_stacks_paginator(client)
-        stacks = get_all_stacks(paginator)
-        stacks = filter_stacks_by_statuses(stacks)
-        stacks = filter_stacks_with_turn_off_on_friday_night_tag(stacks)
-        stacks = filter_stacks_by_turn_off_on_friday_night_is_yes(stacks)
-        return stacks
+        return []
+
+
+def get_stacks_to_delete_because_it_is_friday_night():
+    client = get_cloudformation_client()
+    paginator = get_describe_stacks_paginator(client)
+    stacks = get_all_stacks(paginator)
+    stacks = filter_stacks_by_statuses(stacks)
+    stacks = filter_stacks_with_turn_off_on_friday_night_tag(stacks)
+    stacks = filter_stacks_by_turn_off_on_friday_night_is_yes(stacks)
+    return stacks
 
 
 def get_stack_names_from_stacks(stacks):
@@ -221,7 +223,7 @@ def get_stack_names_from_stacks(stacks):
 def get_stacks_to_delete(event, context):
     list_of_lists_of_stacks_to_delete = [
         get_stacks_to_delete_because_of_time_to_live_hours_tag(),
-        get_stacks_to_delete_because_it_is_friday_night(),
+        maybe_get_stacks_to_delete_because_it_is_friday_night(),
         # Extend with other routines here.
     ]
     stacks_to_delete = [
