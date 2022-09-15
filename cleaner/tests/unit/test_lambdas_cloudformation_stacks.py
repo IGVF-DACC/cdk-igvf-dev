@@ -57,6 +57,10 @@ def raw_stacks():
                 {
                     'Key': 'time-to-live-hours',
                     'Value': '72'
+                },
+                {
+                    'Key': 'turn-off-on-friday-night',
+                    'Value': 'yes'
                 }
             ],
             'DriftInformation': {
@@ -102,6 +106,10 @@ def raw_stacks():
                 {
                     'Key': 'time-to-live-hours',
                     'Value': '72'
+                },
+                {
+                    'Key': 'turn-off-on-friday-night',
+                    'Value': 'yes'
                 }
             ],
             'DriftInformation': {
@@ -147,6 +155,10 @@ def raw_stacks():
                 {
                     'Key': 'time-to-live-hours',
                     'Value': '72'
+                },
+                {
+                    'Key': 'turn-off-on-friday-night',
+                    'Value': 'yes'
                 }
             ],
             'DriftInformation': {
@@ -192,6 +204,10 @@ def raw_stacks():
                 {
                     'Key': 'time-to-live-hours',
                     'Value': '72'
+                },
+                {
+                    'Key': 'turn-off-on-friday-night',
+                    'Value': 'yes'
                 }
             ],
             'DriftInformation': {
@@ -237,6 +253,10 @@ def raw_stacks():
                 {
                     'Key': 'time-to-live-hours',
                     'Value': '72'
+                },
+                {
+                    'Key': 'turn-off-on-friday-night',
+                    'Value': 'yes'
                 }
             ],
             'DriftInformation': {
@@ -654,6 +674,26 @@ def test_lambdas_cloudformation_stacks_stack_has_time_to_live_hours_tag(raw_stac
 def test_lambdas_cloudformation_stacks_filter_stacks_with_time_to_live_hours_tag(raw_stacks):
     from cleaner.lambdas.cloudformation.stacks import filter_stacks_with_time_to_live_hours_tag
     filtered_stacks = filter_stacks_with_time_to_live_hours_tag(raw_stacks)
+    assert len(filtered_stacks) == 5
+
+
+def test_lambdas_cloudformation_stacks_get_turn_off_on_friday_night_tag_or_none(raw_stacks):
+    from cleaner.lambdas.cloudformation.stacks import get_turn_off_on_friday_night_tag_or_none
+    assert get_turn_off_on_friday_night_tag_or_none(
+        raw_stacks[0]) == {'Key': 'turn-off-on-friday-night', 'Value': 'yes'}
+    assert get_turn_off_on_friday_night_tag_or_none(raw_stacks[10]) is None
+
+
+def test_lambdas_cloudformation_stacks_stack_has_turn_off_on_friday_night_tag(raw_stacks):
+    from cleaner.lambdas.cloudformation.stacks import stack_has_turn_off_on_friday_night_tag
+    assert stack_has_turn_off_on_friday_night_tag(raw_stacks[0])
+    assert not stack_has_turn_off_on_friday_night_tag(raw_stacks[10])
+
+
+def test_lambdas_cloudformation_stacks_filter_stacks_with_turn_off_on_friday_night_tag(raw_stacks):
+    from cleaner.lambdas.cloudformation.stacks import filter_stacks_with_turn_off_on_friday_night_tag
+    filtered_stacks = filter_stacks_with_turn_off_on_friday_night_tag(
+        raw_stacks)
     assert len(filtered_stacks) == 5
 
 
