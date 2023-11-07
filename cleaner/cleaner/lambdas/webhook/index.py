@@ -22,8 +22,11 @@ def get_github_secret():
 
 
 def verify_hmac(secret, body, signature):
-    hmac_gen = hmac.new(secret.encode(), body.encode(),
-                        hashlib.sha256).hexdigest()
+    hmac_gen = hmac.new(
+        secret.encode(),
+        body.encode(),
+        hashlib.sha256
+    ).hexdigest()
 
     expected_signature = f'sha256={hmac_gen}'
 
@@ -56,7 +59,10 @@ def handler(event, context):
         }
 
     signature_valid = verify_hmac(
-        github_secret, payload_body, github_signature)
+        github_secret,
+        payload_body,
+        github_signature
+    )
 
     if not signature_valid:
         print('Invalid signature, skipping')

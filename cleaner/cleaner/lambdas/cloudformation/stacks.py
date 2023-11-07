@@ -278,7 +278,9 @@ def get_stacks_to_delete_because_a_github_branch_was_deleted():
     stacks = filter_stacks_by_statuses(stacks)
     messages = get_messages_from_delete_branch_queue()
     stacks = handle_delete_queue_messages_and_filter_stacks_by_branch(
-        messages, stacks)
+        messages,
+        stacks
+    )
     return stacks
 
 
