@@ -354,5 +354,5 @@ class DemoCleaner(Stack):
         CfnOutput(
             self,
             'DeleteBranchWebhookURL',
-            value=delete_branch_webhook.url
+            value=delete_branch_function_url.url
         )
