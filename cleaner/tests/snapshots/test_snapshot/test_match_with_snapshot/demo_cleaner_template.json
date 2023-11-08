@@ -197,7 +197,7 @@
             "Properties": {
                 "Code": {
                     "S3Bucket": "cdk-hnb659fds-assets-testing-testing",
-                    "S3Key": "727ea7c7bf55bc8b41a22386347212cd9e489b0b39c249d09c0160630bcfab44.zip"
+                    "S3Key": "1a9436b4b3910528f4e13ed2dd52eecbdab487c19f950f865e339e6d6fdee524.zip"
                 },
                 "Environment": {
                     "Variables": {
@@ -214,7 +214,7 @@
                     ]
                 },
                 "Runtime": "python3.9",
-                "Timeout": 60
+                "Timeout": 120
             },
             "Type": "AWS::Lambda::Function"
         },
