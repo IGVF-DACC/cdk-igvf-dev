@@ -229,6 +229,7 @@ def handle_delete_queue_messages_and_filter_stacks_by_branch(messages, stacks):
     stacks_to_delete = []
     for message in messages:
         branch = json.loads(message['Body'])['branch']
+        print('Got delete queue message for branch', branch)
         if branch not in ['dev', 'main']:
             matching_stacks = [
                 stack
@@ -236,10 +237,12 @@ def handle_delete_queue_messages_and_filter_stacks_by_branch(messages, stacks):
                 if stack_has_maching_branch_tag(stack, branch)
             ]
             if not matching_stacks:
-                sqs_client.delete_message(
+                print('delete message from queue for branch', branch)
+                delete_response = sqs_client.delete_message(
                     QueueUrl=queue_url,
                     ReceiptHandle=message['ReceiptHandle']
                 )
+                print(delete_response)
             else:
                 stacks_to_delete.extend(matching_stacks)
     return stacks_to_delete
