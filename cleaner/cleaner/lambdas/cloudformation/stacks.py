@@ -61,12 +61,15 @@ def get_all_stacks(paginator):
 
 
 def get_messages_from_delete_branch_queue():
+    logger.info('Getting messages from delete branch queue')
     client = get_sqs_client()
-    return client.receive_message(
+    messages = client.receive_message(
         QueueUrl=get_delete_branch_queue_url(),
         MaxNumberOfMessages=10,
-        WaitTimeSeconds=1,
+        WaitTimeSeconds=20,
     ).get('Messages', [])
+    logger.info(f'Got {len(messages)} messages')
+    return messages
 
 
 def filter_stacks_by_statuses(stacks):
@@ -229,7 +232,7 @@ def handle_delete_queue_messages_and_filter_stacks_by_branch(messages, stacks):
     stacks_to_delete = []
     for message in messages:
         branch = json.loads(message['Body'])['branch']
-        print('Got delete queue message for branch', branch)
+        logger.info(f'Got delete queue message for branch {branch}')
         if branch not in ['dev', 'main']:
             matching_stacks = [
                 stack
@@ -237,12 +240,11 @@ def handle_delete_queue_messages_and_filter_stacks_by_branch(messages, stacks):
                 if stack_has_maching_branch_tag(stack, branch)
             ]
             if not matching_stacks:
-                print('delete message from queue for branch', branch)
+                logger.info(f'delete message from queue for branch {branch}')
                 delete_response = sqs_client.delete_message(
                     QueueUrl=queue_url,
                     ReceiptHandle=message['ReceiptHandle']
                 )
-                print(delete_response)
             else:
                 stacks_to_delete.extend(matching_stacks)
     return stacks_to_delete
