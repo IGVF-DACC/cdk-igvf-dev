@@ -201,7 +201,7 @@
                 },
                 "Environment": {
                     "Variables": {
-                        "QUEUE_URL": {
+                        "DELETE_BRANCH_QUEUE_URL": {
                             "Ref": "DeleteBranchQueue51E8FA93"
                         }
                     }

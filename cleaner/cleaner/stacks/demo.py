@@ -160,7 +160,7 @@ class DemoCleaner(Stack):
             handler='get_stacks_to_delete',
             timeout=Duration.seconds(60),
             environment={
-                'QUEUE_URL': delete_branch_queue.queue_url,
+                'DELETE_BRANCH_QUEUE_URL': delete_branch_queue.queue_url,
             }
         )
 
