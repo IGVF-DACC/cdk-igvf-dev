@@ -19,7 +19,7 @@
     "Resources": {
         "CleanUpDemoStacks7299AF93": {
             "Properties": {
-                "ScheduleExpression": "rate(2 hours)",
+                "ScheduleExpression": "rate(1 hour)",
                 "State": "ENABLED",
                 "Targets": [
                     {
@@ -197,7 +197,7 @@
             "Properties": {
                 "Code": {
                     "S3Bucket": "cdk-hnb659fds-assets-testing-testing",
-                    "S3Key": "fe059830f346dff639420c36f7dc47fdac78cbb52d08d0a896f1c12ce5af6e3c.zip"
+                    "S3Key": "727ea7c7bf55bc8b41a22386347212cd9e489b0b39c249d09c0160630bcfab44.zip"
                 },
                 "Environment": {
                     "Variables": {
