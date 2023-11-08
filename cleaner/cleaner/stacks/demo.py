@@ -158,7 +158,7 @@ class DemoCleaner(Stack):
             runtime=Runtime.PYTHON_3_9,
             index='stacks.py',
             handler='get_stacks_to_delete',
-            timeout=Duration.seconds(60),
+            timeout=Duration.seconds(120),
             environment={
                 'DELETE_BRANCH_QUEUE_URL': delete_branch_queue.queue_url,
             }

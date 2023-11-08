@@ -61,13 +61,19 @@ def get_all_stacks(paginator):
 
 
 def get_messages_from_delete_branch_queue():
+    messages = []
     logger.info('Getting messages from delete branch queue')
     client = get_sqs_client()
-    messages = client.receive_message(
-        QueueUrl=get_delete_branch_queue_url(),
-        MaxNumberOfMessages=10,
-        WaitTimeSeconds=20,
-    ).get('Messages', [])
+    # Need multiple calls when # of messages < 1000.
+    # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sqs/client/receive_message.html#SQS.Client.receive_message
+    for i in range(4):
+        messages.extend(
+            client.receive_message(
+                QueueUrl=get_delete_branch_queue_url(),
+                MaxNumberOfMessages=10,
+                WaitTimeSeconds=15,
+            ).get('Messages', [])
+        )
     logger.info(f'Got {len(messages)} messages')
     return messages
 
