@@ -9,6 +9,7 @@ from aws_cdk.aws_iam import PolicyStatement
 from aws_cdk.aws_s3 import Bucket
 from aws_cdk.aws_s3 import CorsRule
 from aws_cdk.aws_s3 import HttpMethods
+from aws_cdk.aws_s3 import ObjectOwnership
 
 from constructs import Construct
 
@@ -96,6 +97,7 @@ class RestrictedBucketStorage(Stack):
             'RestrictedFilesLogsBucket',
             bucket_name=f'{RESTRICTED_FILES_BUCKET_NAME}-logs',
             removal_policy=RemovalPolicy.RETAIN,
+            object_ownership=ObjectOwnership.BUCKET_OWNER_PREFERRED,
         )
 
         self.restricted_files_bucket = Bucket(
@@ -109,4 +111,5 @@ class RestrictedBucketStorage(Stack):
             removal_policy=RemovalPolicy.RETAIN,
             server_access_logs_bucket=self.restricted_files_logs_bucket,
             versioned=True,
+            object_ownership=ObjectOwnership.BUCKET_OWNER_PREFERRED,
         )

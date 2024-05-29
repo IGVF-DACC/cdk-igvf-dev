@@ -63,6 +63,13 @@
                         "Ref": "RestrictedFilesLogsBucketE4C14D48"
                     }
                 },
+                "OwnershipControls": {
+                    "Rules": [
+                        {
+                            "ObjectOwnership": "BucketOwnerPreferred"
+                        }
+                    ]
+                },
                 "VersioningConfiguration": {
                     "Status": "Enabled"
                 }
@@ -74,7 +81,14 @@
             "DeletionPolicy": "Retain",
             "Properties": {
                 "AccessControl": "LogDeliveryWrite",
-                "BucketName": "igvf-restricted-files-dev-logs"
+                "BucketName": "igvf-restricted-files-dev-logs",
+                "OwnershipControls": {
+                    "Rules": [
+                        {
+                            "ObjectOwnership": "BucketOwnerPreferred"
+                        }
+                    ]
+                }
             },
             "Type": "AWS::S3::Bucket",
             "UpdateReplacePolicy": "Retain"
