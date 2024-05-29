@@ -63,13 +63,6 @@
                         "Ref": "RestrictedFilesLogsBucketE4C14D48"
                     }
                 },
-                "OwnershipControls": {
-                    "Rules": [
-                        {
-                            "ObjectOwnership": "BucketOwnerPreferred"
-                        }
-                    ]
-                },
                 "VersioningConfiguration": {
                     "Status": "Enabled"
                 }
@@ -85,7 +78,7 @@
                 "OwnershipControls": {
                     "Rules": [
                         {
-                            "ObjectOwnership": "BucketOwnerPreferred"
+                            "ObjectOwnership": "ObjectWriter"
                         }
                     ]
                 }
