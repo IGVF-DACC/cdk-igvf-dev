@@ -18,7 +18,7 @@ app = App()
 
 waf = WAF(
     app,
-    'IgvfDevWaf',
+    'DemoWAF',
     props=WAFProps(
         rules=DEV_RULES,
         prefix=DEV_PREFIX,
