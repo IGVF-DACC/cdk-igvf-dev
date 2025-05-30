@@ -34,7 +34,7 @@ class WAF(Stack):
             self,
             'CfnWebACL',
             default_action={
-                'Allow': {}
+                'allow': {}
             },
             scope='REGIONAL',
             visibility_config={
