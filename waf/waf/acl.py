@@ -32,7 +32,6 @@ class WAF(Stack):
 
         self.cfn_web_acl = CfnWebACL(
             self,
-            props.name,
             ''.join([part.title() for part in props.prefix.split('-')]),
             default_action={
                 'allow': {}
