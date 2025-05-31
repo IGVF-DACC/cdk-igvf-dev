@@ -74,10 +74,10 @@ class WAF(Stack):
             block_rule = [
                 {
                     'Name': 'block-ips',
-                    'Priority': 5,
+                    'Priority': 50,
                     'Statement': {
                         'IPSetReferenceStatement': {
-                            'ARN': self.blocked_ips.attr_arn
+                            'Arn': self.blocked_ips.attr_arn
                         }
                     },
                     'Action': {
@@ -106,10 +106,10 @@ class WAF(Stack):
             allow_rule = [
                 {
                     'Name': 'allow-ips',
-                    'Priority': 4,
+                    'Priority': 40,
                     'Statement': {
                         'IPSetReferenceStatement': {
-                            'ARN': self.allowed_ips.attr_arn
+                            'Arn': self.allowed_ips.attr_arn
                         }
                     },
                     'Action': {

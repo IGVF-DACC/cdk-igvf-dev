@@ -29,7 +29,6 @@ demo_waf_igvf_ui = WAF(
         ],
         ips_to_block=[
             '192.0.2.0/24',
-            '192.1.0.0/16',
         ]
     ),
     env=ENVIRONMENT,

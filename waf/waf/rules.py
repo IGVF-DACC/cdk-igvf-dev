@@ -8,7 +8,7 @@ def add_prefix_to_visibility_config_metric_config(rule: Dict[str, Any], prefix):
 
 
 def reset_priority(rule: Dict[str, Any], idx: int):
-    rule['Priority'] = idx * 10
+    rule['Priority'] = idx * 100
     return rule
 
 
@@ -128,7 +128,7 @@ def get_rules(prefix: str) -> List[Dict[str, Any]]:
                 rule,
                 prefix
             ),
-            idx
+            idx + 1
         )
         for idx, rule in enumerate(rules)
     ]
