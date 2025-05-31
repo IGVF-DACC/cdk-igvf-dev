@@ -24,6 +24,13 @@ demo_waf_igvf_ui = WAF(
     props=WAFProps(
         rules=get_rules(IGVF_UI_DEMO_WAF_PREFIX),
         prefix=IGVF_UI_DEMO_WAF_PREFIX,
+        ips_to_allow=[
+            '98.35.33.121/32',
+        ],
+        ips_to_block=[
+            '192.0.2.0/24',
+            '192.1.0.0/16',
+        ]
     ),
     env=ENVIRONMENT,
     termination_protection=True,

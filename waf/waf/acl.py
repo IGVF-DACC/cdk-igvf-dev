@@ -6,17 +6,23 @@ from aws_cdk import Tags
 from constructs import Construct
 
 from aws_cdk.aws_wafv2 import CfnWebACL
+from aws_cdk.aws_wafv2 import CfnIPSet
 
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Optional
 
 from dataclasses import dataclass
+
+
+CUSTOM_RESPONSE_RATE_LIMIT = '{"error": "Too many requests", "message": "You have exceeded request limit. Try again later."}'
 
 
 @dataclass
 class WAFProps:
     rules: List[Dict[str, Any]]
     prefix: str
-    
+    ips_to_block: Optional[List[str]] = None
+    ips_to_allow: Optional[List[str]] = None
+
 
 class WAF(Stack):
 
@@ -45,10 +51,80 @@ class WAF(Stack):
             custom_response_bodies={
                 'RateLimitBody': {
                     "contentType": "APPLICATION_JSON",
-                    "content": '{"error": "Too many requests", "message": "You have exceeded request limit. Try again later."}'
+                    "content": CUSTOM_RESPONSE_RATE_LIMIT
                 }
             }
         )
+
+        self.cfn_web_acl.add_property_override(
+            'Rules',
+            props.rules,
+        )
+
+        if props.ips_to_block is not None:
+            self.blocked_ips = CfnIPSet(
+                self,
+                f'{props.prefix}-blocked-ips',
+                addresses=props.ips_to_block,
+                ip_address_version='IPV4',
+                scope='REGIONAL',
+                description='Blocked IPs',
+            )
+
+            block_rule = [
+                {
+                    'Name': 'block-ips',
+                    'Priority': 5,
+                    'Statement': {
+                        'IPSetReferenceStatement': {
+                            'ARN': self.blocked_ips.attr_arn
+                        }
+                    },
+                    'Action': {
+                        'Block': {}
+                    },
+                    'VisibilityConfig': {
+                        'SampledRequestsEnabled': True,
+                        'CloudWatchMetricsEnabled': True,
+                        'MetricName': f'{props.prefix}-blocked-ips'
+                    }
+                }
+            ]
+
+            props.rules = block_rule + props.rules
+
+        if props.ips_to_allow is not None:
+            self.allowed_ips = CfnIPSet(
+                self,
+                f'{props.prefix}-allowed-ips',
+                addresses=props.ips_to_allow,
+                ip_address_version='IPV4',
+                scope='REGIONAL',
+                description='Allowed IPs',
+            )
+
+            allow_rule = [
+                {
+                    'Name': 'allow-ips',
+                    'Priority': 4,
+                    'Statement': {
+                        'IPSetReferenceStatement': {
+                            'ARN': self.allowed_ips.attr_arn
+                        }
+                    },
+                    'Action': {
+                        'Allow': {}
+                    },
+                    'VisibilityConfig': {
+                        'SampledRequestsEnabled': True,
+                        'CloudWatchMetricsEnabled': True,
+                        'MetricName': f'{props.prefix}-allowed-ips'
+                    }
+                }
+            ]
+
+            props.rules = allow_rule + props.rules
+
         self.cfn_web_acl.add_property_override(
             'Rules',
             props.rules,
