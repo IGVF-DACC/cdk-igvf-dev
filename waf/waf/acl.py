@@ -70,7 +70,6 @@ class WAF(Stack):
                 scope='REGIONAL',
                 description='Blocked IPs',
             )
-
             block_rule = [
                 {
                     'Name': 'block-ips',
@@ -90,7 +89,6 @@ class WAF(Stack):
                     }
                 }
             ]
-
             props.rules = block_rule + props.rules
 
         if props.ips_to_allow is not None:
@@ -102,7 +100,6 @@ class WAF(Stack):
                 scope='REGIONAL',
                 description='Allowed IPs',
             )
-
             allow_rule = [
                 {
                     'Name': 'allow-ips',
@@ -122,7 +119,6 @@ class WAF(Stack):
                     }
                 }
             ]
-
             props.rules = allow_rule + props.rules
 
         self.cfn_web_acl.add_property_override(
