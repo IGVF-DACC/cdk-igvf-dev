@@ -32,7 +32,8 @@ class WAF(Stack):
 
         self.cfn_web_acl = CfnWebACL(
             self,
-            'CfnWebACL',
+            props.name,
+            ''.join([part.title() for part in props.prefix.split('-')]),
             default_action={
                 'allow': {}
             },
@@ -40,7 +41,13 @@ class WAF(Stack):
             visibility_config={
                 'cloudWatchMetricsEnabled': True,
                 'sampledRequestsEnabled': True,
-                'metricName': f'{props.prefix}WafMetrics',
+                'metricName': f'{props.prefix}Metrics',
+            },
+            custom_response_bodies={
+                'RateLimitBody': {
+                    "contentType": "APPLICATION_JSON",
+                    "content": '{"error": "Too many requests", "message": "You have exceeded request limit. Try again later."}'
+                }
             }
         )
         self.cfn_web_acl.add_property_override(

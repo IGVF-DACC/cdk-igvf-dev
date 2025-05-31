@@ -3,10 +3,12 @@ from aws_cdk import Environment
 
 from waf.config import config
 
+from waf.constants import IGVF_UI_DEMO_WAF_PREFIX
+
 from waf.acl import WAF
 from waf.acl import WAFProps
-from waf.constants import DEV_PREFIX
-from waf.rules import DEV_RULES
+
+from waf.rules import get_rules
 
 
 ENVIRONMENT = Environment(
@@ -16,12 +18,12 @@ ENVIRONMENT = Environment(
 
 app = App()
 
-waf = WAF(
+demo_waf_igvf_ui = WAF(
     app,
-    'DemoWAF',
+    IGVF_UI_DEMO_WAF_PREFIX,
     props=WAFProps(
-        rules=DEV_RULES,
-        prefix=DEV_PREFIX,
+        rules=get_rules(IGVF_UI_DEMO_WAF_PREFIX),
+        prefix=IGVF_UI_DEMO_WAF_PREFIX,
     ),
     env=ENVIRONMENT,
     termination_protection=True,
