@@ -16,7 +16,7 @@ def get_rules(prefix: str) -> List[Dict[str, Any]]:
     rules = [
         {
             "Name": "throttle-requests",
-            "Priority": 0,
+            "Priority": 100,
             "Statement": {
                 "RateBasedStatement": {
                     "Limit": 600,
@@ -35,62 +35,152 @@ def get_rules(prefix: str) -> List[Dict[str, Any]]:
             "VisibilityConfig": {
                 "SampledRequestsEnabled": True,
                 "CloudWatchMetricsEnabled": True,
-                "MetricName": "throttle-requests"
+                "MetricName": "waf-throttle-requests"
             }
         },
         {
-            'Name': 'AWS-AWSManagedRulesCommonRuleSet',
-            'Priority': 1,
-            'Statement': {
-                'ManagedRuleGroupStatement': {
-                    'VendorName': 'AWS',
-                    'Name': 'AWSManagedRulesCommonRuleSet',
-                    'RuleActionOverrides': [
+            "Name": "AWS-AWSManagedRulesAmazonIpReputationList",
+            "Priority": 101,
+            "Statement": {
+                "ManagedRuleGroupStatement": {
+                    "VendorName": "AWS",
+                    "Name": "AWSManagedRulesAmazonIpReputationList"
+                }
+            },
+            "OverrideAction": {
+                "None": {}
+            },
+            "VisibilityConfig": {
+                "SampledRequestsEnabled": True,
+                "CloudWatchMetricsEnabled": True,
+                "MetricName": "AWS-AWSManagedRulesAmazonIpReputationList"
+            }
+        },
+        {
+            "Name": "AWS-AWSManagedRulesAnonymousIpList",
+            "Priority": 102,
+            "Statement": {
+                "ManagedRuleGroupStatement": {
+                    "VendorName": "AWS",
+                    "Name": "AWSManagedRulesAnonymousIpList"
+                }
+            },
+            "OverrideAction": {
+                "None": {}
+            },
+            "VisibilityConfig": {
+                "SampledRequestsEnabled": True,
+                "CloudWatchMetricsEnabled": True,
+                "MetricName": "AWS-AWSManagedRulesAnonymousIpList"
+            }
+        },
+        {
+            "Name": "AWS-AWSManagedRulesLinuxRuleSet",
+            "Priority": 103,
+            "Statement": {
+                "ManagedRuleGroupStatement": {
+                    "VendorName": "AWS",
+                    "Name": "AWSManagedRulesLinuxRuleSet"
+                }
+            },
+            "OverrideAction": {
+                "None": {}
+            },
+            "VisibilityConfig": {
+                "SampledRequestsEnabled": True,
+                "CloudWatchMetricsEnabled": True,
+                "MetricName": "AWS-AWSManagedRulesLinuxRuleSet"
+            }
+        },
+        {
+            "Name": "AWS-AWSManagedRulesPHPRuleSet",
+            "Priority": 104,
+            "Statement": {
+                "ManagedRuleGroupStatement": {
+                    "VendorName": "AWS",
+                    "Name": "AWSManagedRulesPHPRuleSet"
+                }
+            },
+            "OverrideAction": {
+                "None": {}
+            },
+            "VisibilityConfig": {
+                "SampledRequestsEnabled": True,
+                "CloudWatchMetricsEnabled": True,
+                "MetricName": "AWS-AWSManagedRulesPHPRuleSet"
+            }
+        },
+        {
+            "Name": "AWS-AWSManagedRulesUnixRuleSet",
+            "Priority": 105,
+            "Statement": {
+                "ManagedRuleGroupStatement": {
+                    "VendorName": "AWS",
+                    "Name": "AWSManagedRulesUnixRuleSet"
+                }
+            },
+            "OverrideAction": {
+                "None": {}
+            },
+            "VisibilityConfig": {
+                "SampledRequestsEnabled": True,
+                "CloudWatchMetricsEnabled": True,
+                "MetricName": "AWS-AWSManagedRulesUnixRuleSet"
+            }
+        },
+        {
+            "Name": "AWS-AWSManagedRulesCommonRuleSet",
+            "Priority": 200,
+            "Statement": {
+                "ManagedRuleGroupStatement": {
+                    "VendorName": "AWS",
+                    "Name": "AWSManagedRulesCommonRuleSet",
+                    "RuleActionOverrides": [
                         {
-                            'Name': 'SizeRestrictions_BODY',
-                            'ActionToUse': {
-                                'Count': {}
+                            "Name": "SizeRestrictions_BODY",
+                            "ActionToUse": {
+                                "Count": {}
                             }
                         },
                         {
-                            'Name': 'SizeRestrictions_URIPATH',
-                            'ActionToUse': {
-                                'Count': {}
+                            "Name": "SizeRestrictions_URIPATH",
+                            "ActionToUse": {
+                                "Count": {}
                             }
                         }
                     ]
                 }
             },
-            'OverrideAction': {
-                'None': {}
+            "OverrideAction": {
+                "None": {}
             },
-            'VisibilityConfig': {
-                'SampledRequestsEnabled': True,
-                'CloudWatchMetricsEnabled': True,
-                'MetricName': 'AWS-AWSManagedRulesCommonRuleSet'
+            "VisibilityConfig": {
+                "SampledRequestsEnabled": True,
+                "CloudWatchMetricsEnabled": True,
+                "MetricName": "AWS-AWSManagedRulesCommonRuleSet"
             }
         },
         {
-            'Name': 'AWS-AWSManagedRulesKnownBadInputsRuleSet',
-            'Priority': 2,
-            'Statement': {
-                'ManagedRuleGroupStatement': {
-                    'VendorName': 'AWS',
-                    'Name': 'AWSManagedRulesKnownBadInputsRuleSet'
+            "Name": "AWS-AWSManagedRulesKnownBadInputsRuleSet",
+            "Priority": 300,
+            "Statement": {
+                "ManagedRuleGroupStatement": {
+                    "VendorName": "AWS",
+                    "Name": "AWSManagedRulesKnownBadInputsRuleSet"
                 }
             },
-            'OverrideAction': {
-                'None': {}
+            "OverrideAction": {
+                "None": {}
             },
-            'VisibilityConfig': {
-                'SampledRequestsEnabled': True,
-                'CloudWatchMetricsEnabled': True,
-                'MetricName': 'AWS-AWSManagedRulesKnownBadInputsRuleSet'
+            "VisibilityConfig": {
+                "SampledRequestsEnabled": True,
+                "CloudWatchMetricsEnabled": True,
+                "MetricName": "AWS-AWSManagedRulesKnownBadInputsRuleSet"
             }
         },
         {
             "Name": "AWS-AWSManagedRulesBotControlRuleSet",
-            "Priority": 3,
+            "Priority": 400,
             "Statement": {
                 "ManagedRuleGroupStatement": {
                     "VendorName": "AWS",
