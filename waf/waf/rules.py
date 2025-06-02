@@ -101,14 +101,6 @@ def get_rules(prefix: str) -> List[Dict[str, Any]]:
                                 "InspectionLevel": "COMMON"
                             }
                         }
-                    ],
-                    "RuleActionOverrides": [
-                        {
-                            "Name": "CategorySearchEngine",
-                            "ActionToUse": {
-                                "Count": {}
-                            }
-                        }
                     ]
                 }
             },

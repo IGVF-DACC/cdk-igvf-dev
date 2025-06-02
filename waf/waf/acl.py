@@ -61,7 +61,7 @@ class WAF(Stack):
             props.rules,
         )
 
-        if props.ips_to_block is not None:
+        if props.ips_to_block:
             self.blocked_ips = CfnIPSet(
                 self,
                 f'{props.prefix}-blocked-ips',
@@ -91,7 +91,7 @@ class WAF(Stack):
             ]
             props.rules = block_rule + props.rules
 
-        if props.ips_to_allow is not None:
+        if props.ips_to_allow:
             self.allowed_ips = CfnIPSet(
                 self,
                 f'{props.prefix}-allowed-ips',
