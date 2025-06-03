@@ -50,8 +50,8 @@ class WAF(Stack):
             },
             custom_response_bodies={
                 'RateLimitBody': {
-                    "contentType": "APPLICATION_JSON",
-                    "content": CUSTOM_RESPONSE_RATE_LIMIT
+                    'contentType': 'APPLICATION_JSON',
+                    'content': CUSTOM_RESPONSE_RATE_LIMIT
                 }
             }
         )

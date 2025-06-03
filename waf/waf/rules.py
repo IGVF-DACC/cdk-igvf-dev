@@ -214,4 +214,3 @@ def get_rules(prefix: str) -> List[Dict[str, Any]]:
         )
         for idx, rule in enumerate(rules)
     ]
-
