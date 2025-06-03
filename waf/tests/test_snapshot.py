@@ -13,7 +13,7 @@ ENVIRONMENT = Environment(
 )
 
 
-def test_bucket_storage_match_with_snapshot(snapshot):
+def test_waf_match_with_snapshot(snapshot):
     from waf.acl import WAF
     from waf.acl import WAFProps
     from waf.rules import get_rules
