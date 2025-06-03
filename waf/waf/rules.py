@@ -1,13 +1,13 @@
 from typing import List, Dict, Any
 
 
-def add_prefix_to_visibility_config_metric_config(rule: Dict[str, Any], prefix):
+def add_prefix_to_visibility_config_metric_config(rule: Dict[str, Any], prefix: str) -> Dict[str, Any]:
     if rule.get('VisibilityConfig', {}).get('MetricName') is not None:
         rule['VisibilityConfig']['MetricName'] = f"{prefix}-{rule['VisibilityConfig']['MetricName']}"
     return rule
 
 
-def reset_priority(rule: Dict[str, Any], idx: int):
+def reset_priority(rule: Dict[str, Any], idx: int) -> Dict[str, Any]:
     rule['Priority'] = idx * 100
     return rule
 
