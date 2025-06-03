@@ -14,16 +14,27 @@ ENVIRONMENT = Environment(
 
 
 def test_bucket_storage_match_with_snapshot(snapshot):
-    assert False
-'''    from bucket.bucket_storage import RestrictedBucketStorage
+    from waf.acl import WAF
+    from waf.acl import WAFProps
+    from waf.rules import get_rules
     app = App()
-    bucket_storage = RestrictedBucketStorage(
+    abc_waf = WAF(
         app,
-        'RestrictedBucketStorage',
-        env=ENVIRONMENT
+        'abc',
+        props=WAFProps(
+            rules=get_rules('abc'),
+            prefix='abc',
+            ips_to_allow=[
+                '98.35.33.121/32',
+            ],
+            ips_to_block=[
+                '192.0.2.0/24',
+                '184.1.0.0/16',
+            ]
+        ),
     )
     template = Template.from_stack(
-        bucket_storage
+        abc_waf,
     )
     snapshot.assert_match(
         json.dumps(
@@ -31,7 +42,5 @@ def test_bucket_storage_match_with_snapshot(snapshot):
             indent=4,
             sort_keys=True
         ),
-        'bucket_storage_template.json'
+        'abc_waf.json'
     )
-
-'''
