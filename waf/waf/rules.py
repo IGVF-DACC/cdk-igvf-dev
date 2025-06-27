@@ -208,24 +208,24 @@ RULES = {
         }
     ],
     IGVF_API_DEMO_WAF_PREFIX: [
-            {
-                "Name": "AWS-AWSManagedRulesAmazonIpReputationList",
-                "Priority": 0,
-                "Statement": {
+        {
+            "Name": "AWS-AWSManagedRulesAmazonIpReputationList",
+            "Priority": 0,
+            "Statement": {
                     "ManagedRuleGroupStatement": {
                         "VendorName": "AWS",
                         "Name": "AWSManagedRulesAmazonIpReputationList"
                     }
-                },
-                "OverrideAction": {
-                    "None": {}
-                },
-                "VisibilityConfig": {
-                    "SampledRequestsEnabled": True,
-                    "CloudWatchMetricsEnabled": True,
-                    "MetricName": "AWS-AWSManagedRulesAmazonIpReputationList"
-                }
             },
+            "OverrideAction": {
+                "None": {}
+            },
+            "VisibilityConfig": {
+                "SampledRequestsEnabled": True,
+                "CloudWatchMetricsEnabled": True,
+                "MetricName": "AWS-AWSManagedRulesAmazonIpReputationList"
+            }
+        },
         {
             "Name": "AWS-AWSManagedRulesAnonymousIpList",
             "Priority": 1,
