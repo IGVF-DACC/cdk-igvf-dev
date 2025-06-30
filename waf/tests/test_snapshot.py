@@ -17,13 +17,14 @@ def test_waf_match_with_snapshot(snapshot):
     from waf.acl import WAF
     from waf.acl import WAFProps
     from waf.rules import get_rules
+    from waf.constants import IGVF_UI_DEMO_WAF_PREFIX
     app = App()
     abc_waf = WAF(
         app,
-        'abc',
+        IGVF_UI_DEMO_WAF_PREFIX,
         props=WAFProps(
-            rules=get_rules('abc'),
-            prefix='abc',
+            rules=get_rules(IGVF_UI_DEMO_WAF_PREFIX),
+            prefix=IGVF_UI_DEMO_WAF_PREFIX,
             ips_to_allow=[
                 '98.35.33.121/32',
             ],
