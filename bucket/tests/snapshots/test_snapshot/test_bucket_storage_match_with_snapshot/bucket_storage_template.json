@@ -190,10 +190,7 @@
                     {
                         "Id": "PrivateFilesBucketMetrics"
                     }
-                ],
-                "VersioningConfiguration": {
-                    "Status": "Enabled"
-                }
+                ]
             },
             "Type": "AWS::S3::Bucket",
             "UpdateReplacePolicy": "Retain"
@@ -278,6 +275,52 @@
             },
             "Type": "AWS::S3::Bucket",
             "UpdateReplacePolicy": "Retain"
+        },
+        "PublicFilesBucketPolicy610153B6": {
+            "Properties": {
+                "Bucket": {
+                    "Ref": "PublicFilesBucket96DCF059"
+                },
+                "PolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": [
+                                "s3:List*",
+                                "s3:Get*"
+                            ],
+                            "Effect": "Allow",
+                            "Principal": {
+                                "AWS": "*"
+                            },
+                            "Resource": [
+                                {
+                                    "Fn::GetAtt": [
+                                        "PublicFilesBucket96DCF059",
+                                        "Arn"
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "PublicFilesBucket96DCF059",
+                                                    "Arn"
+                                                ]
+                                            },
+                                            "/*"
+                                        ]
+                                    ]
+                                }
+                            ],
+                            "Sid": "AllowReadFromPublicFilesBucket"
+                        }
+                    ],
+                    "Version": "2012-10-17"
+                }
+            },
+            "Type": "AWS::S3::BucketPolicy"
         },
         "PublicFilesLogsBucketE89CC1C9": {
             "DeletionPolicy": "Retain",

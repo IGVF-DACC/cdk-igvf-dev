@@ -4,6 +4,7 @@ from aws_cdk import Stack
 from aws_cdk import RemovalPolicy
 
 from aws_cdk.aws_iam import AccountPrincipal
+from aws_cdk.aws_iam import AnyPrincipal
 from aws_cdk.aws_iam import ManagedPolicy
 from aws_cdk.aws_iam import PolicyStatement
 
@@ -69,7 +70,8 @@ CORS = CorsRule(
     exposed_headers=[
         'Content-Length',
         'Content-Range',
-        'Content-Type',
+        'Content-Type'
+        'ETag',
     ],
     max_age=3000,
 )
@@ -182,7 +184,7 @@ class BucketStorage(Stack):
                 )
             ],
             server_access_logs_bucket=self.private_files_logs_bucket,
-            versioned=True,
+            versioned=False,
         )
 
         self.public_files_bucket = Bucket(
@@ -219,4 +221,21 @@ class BucketStorage(Stack):
             ],
             server_access_logs_bucket=self.public_files_logs_bucket,
             versioned=True,
+        )
+
+        self.public_files_bucket_policy_statement = PolicyStatement(
+            sid='AllowReadFromPublicFilesBucket',
+            principals=[AnyPrincipal()],
+            resources=[
+                self.public_files_bucket.bucket_arn,
+                self.public_files_bucket.arn_for_objects('*'),
+            ],
+            actions=[
+                's3:List*',
+                's3:Get*',
+            ]
+        )
+
+        self.public_files_bucket.add_to_resource_policy(
+            self.public_files_bucket_policy_statement,
         )
