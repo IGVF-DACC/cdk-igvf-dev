@@ -181,7 +181,6 @@ class BucketStorage(Stack):
                     abort_incomplete_multipart_upload_after=Duration.days(7),
                 )
             ],
-            removal_policy=RemovalPolicy.RETAIN,
             server_access_logs_bucket=self.private_files_logs_bucket,
             versioned=True,
         )
@@ -218,7 +217,6 @@ class BucketStorage(Stack):
                     abort_incomplete_multipart_upload_after=Duration.days(7),
                 )
             ],
-            removal_policy=RemovalPolicy.RETAIN,
             server_access_logs_bucket=self.public_files_logs_bucket,
             versioned=True,
         )
