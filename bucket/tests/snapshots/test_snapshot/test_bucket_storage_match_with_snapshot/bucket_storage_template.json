@@ -31,7 +31,8 @@
                             "ExposedHeaders": [
                                 "Content-Length",
                                 "Content-Range",
-                                "Content-TypeETag"
+                                "Content-Type",
+                                "ETag"
                             ],
                             "MaxAge": 3000
                         }
@@ -103,7 +104,8 @@
                             "ExposedHeaders": [
                                 "Content-Length",
                                 "Content-Range",
-                                "Content-TypeETag"
+                                "Content-Type",
+                                "ETag"
                             ],
                             "MaxAge": 3000
                         }
@@ -154,7 +156,8 @@
                             "ExposedHeaders": [
                                 "Content-Length",
                                 "Content-Range",
-                                "Content-TypeETag"
+                                "Content-Type",
+                                "ETag"
                             ],
                             "MaxAge": 3000
                         }
@@ -228,7 +231,8 @@
                             "ExposedHeaders": [
                                 "Content-Length",
                                 "Content-Range",
-                                "Content-TypeETag"
+                                "Content-Type",
+                                "ETag"
                             ],
                             "MaxAge": 3000
                         }
