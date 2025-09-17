@@ -41,44 +41,6 @@ class BucketAccessPolicies(Stack):
 
         self.bucket_storage = bucket_storage
 
-        self.igvf_transfer_user_upload_bucket_policy_statement = PolicyStatement(
-            sid='AllowTransferUserReadFromFilesBucket',
-            resources=[
-                self.bucket_storage.files_bucket.bucket_arn,
-                self.bucket_storage.files_bucket.arn_for_objects('*'),
-            ],
-            actions=[
-                's3:GetBucketAcl',
-                's3:GetBucketLocation',
-                's3:GetObject',
-                's3:GetObjectTagging',
-                's3:GetObjectVersion',
-                's3:ListBucket',
-                's3:PutObjectTagging'
-            ]
-        )
-
-        self.igvf_transfer_user_read_write_public_private_policy_statement = PolicyStatement(
-            sid='AllowTransferUserReadAndWriteFromPublicAndPrivateFilesBuckets',
-            resources=[
-                self.bucket_storage.public_files_bucket.bucket_arn,
-                self.bucket_storage.public_files_bucket.arn_for_objects('*'),
-                self.bucket_storage.private_files_bucket.bucket_arn,
-                self.bucket_storage.private_files_bucket.arn_for_objects('*'),
-            ],
-            actions=[
-                's3:DeleteObject',
-                's3:GetBucketAcl',
-                's3:GetBucketLocation',
-                's3:GetObject',
-                's3:GetObjectTagging',
-                's3:GetObjectVersion',
-                's3:ListBucket',
-                's3:PutObject',
-                's3:PutObjectTagging'
-            ]
-        )
-
         self.download_igvf_files_policy_statement = PolicyStatement(
             sid='AllowReadFromFilesAndBlobsBuckets',
             resources=[
@@ -173,32 +135,4 @@ class BucketAccessPolicies(Stack):
                 ),
                 'SECRET_ACCESS_KEY': self.upload_igvf_files_user_access_key.secret_access_key,
             },
-        )
-
-        self.igvf_transfer_user_files_read_policy = ManagedPolicy(
-            self,
-            'IgvfTransferUserFilesReadPolicy',
-            managed_policy_name='igvf-transfer-user-files-read-policy',
-            statements=[
-                self.igvf_transfer_user_upload_bucket_policy_statement,
-            ],
-        )
-
-        self.igvf_transfer_user_public_private_read_write_policy = ManagedPolicy(
-            self,
-            'IgvfTransferUserPublicPrivateReadWritePolicy',
-            managed_policy_name='igvf-transfer-user-public-private-read-write-policy',
-            statements=[
-                self.igvf_transfer_user_read_write_public_private_policy_statement,
-            ],
-        )
-
-        self.igvf_transfer_user = User.from_user_arn(
-            self,
-            'IgvfTransferUser',
-            user_arn='arn:aws:iam::407227577691:user/igvf-files-transfer',
-            managed_policies=[
-                self.igvf_transfer_user_files_read_policy,
-                self.igvf_transfer_user_public_private_read_write_policy,
-            ]
         )
