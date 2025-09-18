@@ -58,7 +58,7 @@
                             "Status": "Enabled"
                         },
                         {
-                            "Id": "NoncurrentVersionGlacierTransitionRule",
+                            "Id": "OldVersionsToGlacierTransitionRule",
                             "NoncurrentVersionExpiration": {
                                 "NoncurrentDays": 90
                             },
@@ -197,7 +197,7 @@
                             "Status": "Enabled"
                         },
                         {
-                            "Id": "NoncurrentVersionGlacierTransitionRule",
+                            "Id": "OldVersionsToGlacierTransitionRule",
                             "NoncurrentVersionExpiration": {
                                 "NoncurrentDays": 90
                             },

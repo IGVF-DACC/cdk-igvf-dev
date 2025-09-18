@@ -48,7 +48,7 @@ ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE = LifecycleRule(
 )
 
 NONCURRENT_VERSION_GLACIER_TRANSITION_RULE = LifecycleRule(
-    id='NoncurrentVersionGlacierTransitionRule',
+    id='OldVersionsToGlacierTransitionRule',
     noncurrent_version_transitions=[
         NoncurrentVersionTransition(
             storage_class=StorageClass.GLACIER,
