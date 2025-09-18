@@ -47,10 +47,33 @@ ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE = LifecycleRule(
     abort_incomplete_multipart_upload_after=Duration.days(7),
 )
 
-GLACIER_TRANSITION_RULE = LifecycleRule(
-    id='GlacierTransitionRule',
+NONCURRENT_VERSION_GLACIER_TRANSITION_RULE = LifecycleRule(
+    id='NoncurrentVersionGlacierTransitionRule',
     noncurrent_version_transitions=[
         NoncurrentVersionTransition(
+            storage_class=StorageClass.GLACIER,
+            transition_after=Duration.days(0),
+        )
+    ],
+    noncurrent_version_expiration=Duration.days(90),
+)
+
+TAGGED_OBJECTS_GLACIER_TRANSITION_RULE = LifecycleRule(
+    id='TaggedObjectsGlacierTransitionRule',
+    tag_filters={'send_to_glacier': 'true'},
+    transitions=[
+        Transition(
+            storage_class=StorageClass.GLACIER,
+            transition_after=Duration.days(0),
+        )
+    ]
+)
+
+COPIED_OBJECTS_GLACIER_TRANSITION_RULE = LifecycleRule(
+    id='CopiedObjectsGlacierTransitionRule',
+    tag_filters={'copied_to': 'open_data_account'},
+    transitions=[
+        Transition(
             storage_class=StorageClass.GLACIER,
             transition_after=Duration.days(0),
         )
@@ -174,7 +197,9 @@ class BucketStorage(Stack):
             lifecycle_rules=[
                 INTELLIGENT_TIERING_RULE,
                 ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE,
-                GLACIER_TRANSITION_RULE,
+                NONCURRENT_VERSION_GLACIER_TRANSITION_RULE,
+                TAGGED_OBJECTS_GLACIER_TRANSITION_RULE,
+                COPIED_OBJECTS_GLACIER_TRANSITION_RULE,
             ]
         )
 
@@ -199,7 +224,9 @@ class BucketStorage(Stack):
             lifecycle_rules=[
                 INTELLIGENT_TIERING_RULE,
                 ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE,
-                GLACIER_TRANSITION_RULE,
+                NONCURRENT_VERSION_GLACIER_TRANSITION_RULE,
+                TAGGED_OBJECTS_GLACIER_TRANSITION_RULE,
+                COPIED_OBJECTS_GLACIER_TRANSITION_RULE,
             ]
         )
 
@@ -226,6 +253,8 @@ class BucketStorage(Stack):
             lifecycle_rules=[
                 INTELLIGENT_TIERING_RULE,
                 ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE,
+                TAGGED_OBJECTS_GLACIER_TRANSITION_RULE,
+                COPIED_OBJECTS_GLACIER_TRANSITION_RULE,
             ],
             server_access_logs_bucket=self.private_files_logs_bucket,
             versioned=False,
