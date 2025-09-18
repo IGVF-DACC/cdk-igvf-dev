@@ -38,6 +38,37 @@
                         }
                     ]
                 },
+                "LifecycleConfiguration": {
+                    "Rules": [
+                        {
+                            "Id": "IntelligentTieringRule",
+                            "Status": "Enabled",
+                            "Transitions": [
+                                {
+                                    "StorageClass": "INTELLIGENT_TIERING",
+                                    "TransitionInDays": 0
+                                }
+                            ]
+                        },
+                        {
+                            "AbortIncompleteMultipartUpload": {
+                                "DaysAfterInitiation": 7
+                            },
+                            "Id": "AbortIncompleteMultipartUploadRule",
+                            "Status": "Enabled"
+                        },
+                        {
+                            "Id": "GlacierTransitionRule",
+                            "NoncurrentVersionTransitions": [
+                                {
+                                    "StorageClass": "GLACIER",
+                                    "TransitionInDays": 0
+                                }
+                            ],
+                            "Status": "Enabled"
+                        }
+                    ]
+                },
                 "LoggingConfiguration": {
                     "DestinationBucketName": {
                         "Ref": "BlobsLogsBucketB52427AB"
@@ -108,6 +139,37 @@
                                 "ETag"
                             ],
                             "MaxAge": 3000
+                        }
+                    ]
+                },
+                "LifecycleConfiguration": {
+                    "Rules": [
+                        {
+                            "Id": "IntelligentTieringRule",
+                            "Status": "Enabled",
+                            "Transitions": [
+                                {
+                                    "StorageClass": "INTELLIGENT_TIERING",
+                                    "TransitionInDays": 0
+                                }
+                            ]
+                        },
+                        {
+                            "AbortIncompleteMultipartUpload": {
+                                "DaysAfterInitiation": 7
+                            },
+                            "Id": "AbortIncompleteMultipartUploadRule",
+                            "Status": "Enabled"
+                        },
+                        {
+                            "Id": "GlacierTransitionRule",
+                            "NoncurrentVersionTransitions": [
+                                {
+                                    "StorageClass": "GLACIER",
+                                    "TransitionInDays": 0
+                                }
+                            ],
+                            "Status": "Enabled"
                         }
                     ]
                 },

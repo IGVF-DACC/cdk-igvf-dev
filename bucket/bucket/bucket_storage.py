@@ -15,6 +15,7 @@ from aws_cdk.aws_s3 import BucketMetrics
 from aws_cdk.aws_s3 import CorsRule
 from aws_cdk.aws_s3 import HttpMethods
 from aws_cdk.aws_s3 import LifecycleRule
+from aws_cdk.aws_s3 import NoncurrentVersionTransition
 from aws_cdk.aws_s3 import StorageClass
 from aws_cdk.aws_s3 import Transition
 
@@ -31,6 +32,30 @@ PRIVATE_FILES_BUCKET_NAME = 'igvf-private-dev'
 
 IGVF_TRANSFER_USER_ARN = 'arn:aws:iam::407227577691:user/igvf-files-transfer'
 
+INTELLIGENT_TIERING_RULE = LifecycleRule(
+    id='IntelligentTieringRule',
+    transitions=[
+        Transition(
+            storage_class=StorageClass.INTELLIGENT_TIERING,
+            transition_after=Duration.days(0),
+        )
+    ]
+)
+
+ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE = LifecycleRule(
+    id='AbortIncompleteMultipartUploadRule',
+    abort_incomplete_multipart_upload_after=Duration.days(7),
+)
+
+GLACIER_TRANSITION_RULE = LifecycleRule(
+    id='GlacierTransitionRule',
+    noncurrent_version_transitions=[
+        NoncurrentVersionTransition(
+            storage_class=StorageClass.GLACIER,
+            transition_after=Duration.days(0),
+        )
+    ]
+)
 
 BROWSER_UPLOAD_CORS = CorsRule(
     allowed_methods=[
@@ -146,6 +171,11 @@ class BucketStorage(Stack):
             removal_policy=RemovalPolicy.RETAIN,
             server_access_logs_bucket=self.blobs_logs_bucket,
             versioned=True,
+            lifecycle_rules=[
+                INTELLIGENT_TIERING_RULE,
+                ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE,
+                GLACIER_TRANSITION_RULE,
+            ]
         )
 
         self.files_logs_bucket = Bucket(
@@ -166,6 +196,11 @@ class BucketStorage(Stack):
             removal_policy=RemovalPolicy.RETAIN,
             server_access_logs_bucket=self.files_logs_bucket,
             versioned=True,
+            lifecycle_rules=[
+                INTELLIGENT_TIERING_RULE,
+                ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE,
+                GLACIER_TRANSITION_RULE,
+            ]
         )
 
         self.private_files_logs_bucket = Bucket(
@@ -189,19 +224,8 @@ class BucketStorage(Stack):
                 )
             ],
             lifecycle_rules=[
-                LifecycleRule(
-                    id='IntelligentTieringRule',
-                    transitions=[
-                        Transition(
-                            storage_class=StorageClass.INTELLIGENT_TIERING,
-                            transition_after=Duration.days(0),
-                        )
-                    ]
-                ),
-                LifecycleRule(
-                    id='AbortIncompleteMultipartUploadRule',
-                    abort_incomplete_multipart_upload_after=Duration.days(7),
-                )
+                INTELLIGENT_TIERING_RULE,
+                ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE,
             ],
             server_access_logs_bucket=self.private_files_logs_bucket,
             versioned=False,
@@ -232,19 +256,8 @@ class BucketStorage(Stack):
                 )
             ],
             lifecycle_rules=[
-                LifecycleRule(
-                    id='IntelligentTieringRule',
-                    transitions=[
-                        Transition(
-                            storage_class=StorageClass.INTELLIGENT_TIERING,
-                            transition_after=Duration.days(0),
-                        )
-                    ]
-                ),
-                LifecycleRule(
-                    id='AbortIncompleteMultipartUploadRule',
-                    abort_incomplete_multipart_upload_after=Duration.days(7),
-                )
+                INTELLIGENT_TIERING_RULE,
+                ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE,
             ],
             server_access_logs_bucket=self.public_files_logs_bucket,
             versioned=True,
