@@ -41,7 +41,7 @@
                 "LifecycleConfiguration": {
                     "Rules": [
                         {
-                            "Id": "IntelligentTieringRule",
+                            "Id": "AllObjectsToIntelligentTieringRule",
                             "Status": "Enabled",
                             "Transitions": [
                                 {
@@ -54,7 +54,7 @@
                             "AbortIncompleteMultipartUpload": {
                                 "DaysAfterInitiation": 7
                             },
-                            "Id": "AbortIncompleteMultipartUploadRule",
+                            "Id": "DeleteIncompleteMultipartUploadRule",
                             "Status": "Enabled"
                         },
                         {
@@ -180,7 +180,7 @@
                 "LifecycleConfiguration": {
                     "Rules": [
                         {
-                            "Id": "IntelligentTieringRule",
+                            "Id": "AllObjectsToIntelligentTieringRule",
                             "Status": "Enabled",
                             "Transitions": [
                                 {
@@ -193,7 +193,7 @@
                             "AbortIncompleteMultipartUpload": {
                                 "DaysAfterInitiation": 7
                             },
-                            "Id": "AbortIncompleteMultipartUploadRule",
+                            "Id": "DeleteIncompleteMultipartUploadRule",
                             "Status": "Enabled"
                         },
                         {
@@ -349,7 +349,7 @@
                 "LifecycleConfiguration": {
                     "Rules": [
                         {
-                            "Id": "IntelligentTieringRule",
+                            "Id": "AllObjectsToIntelligentTieringRule",
                             "Status": "Enabled",
                             "Transitions": [
                                 {
@@ -362,7 +362,7 @@
                             "AbortIncompleteMultipartUpload": {
                                 "DaysAfterInitiation": 7
                             },
-                            "Id": "AbortIncompleteMultipartUploadRule",
+                            "Id": "DeleteIncompleteMultipartUploadRule",
                             "Status": "Enabled"
                         },
                         {
@@ -509,7 +509,7 @@
                 "LifecycleConfiguration": {
                     "Rules": [
                         {
-                            "Id": "IntelligentTieringRule",
+                            "Id": "AllObjectsToIntelligentTieringRule",
                             "Status": "Enabled",
                             "Transitions": [
                                 {
@@ -522,7 +522,7 @@
                             "AbortIncompleteMultipartUpload": {
                                 "DaysAfterInitiation": 7
                             },
-                            "Id": "AbortIncompleteMultipartUploadRule",
+                            "Id": "DeleteIncompleteMultipartUploadRule",
                             "Status": "Enabled"
                         }
                     ]

@@ -33,7 +33,7 @@ PRIVATE_FILES_BUCKET_NAME = 'igvf-private-dev'
 IGVF_TRANSFER_USER_ARN = 'arn:aws:iam::407227577691:user/igvf-files-transfer'
 
 INTELLIGENT_TIERING_RULE = LifecycleRule(
-    id='IntelligentTieringRule',
+    id='AllObjectsToIntelligentTieringRule',
     transitions=[
         Transition(
             storage_class=StorageClass.INTELLIGENT_TIERING,
@@ -43,7 +43,7 @@ INTELLIGENT_TIERING_RULE = LifecycleRule(
 )
 
 ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE = LifecycleRule(
-    id='AbortIncompleteMultipartUploadRule',
+    id='DeleteIncompleteMultipartUploadRule',
     abort_incomplete_multipart_upload_after=Duration.days(7),
 )
 
