@@ -98,7 +98,7 @@
                             "Transitions": [
                                 {
                                     "StorageClass": "GLACIER",
-                                    "TransitionInDays": 0
+                                    "TransitionInDays": 1
                                 }
                             ]
                         }
@@ -237,7 +237,7 @@
                             "Transitions": [
                                 {
                                     "StorageClass": "GLACIER",
-                                    "TransitionInDays": 0
+                                    "TransitionInDays": 1
                                 }
                             ]
                         }
@@ -393,7 +393,7 @@
                             "Transitions": [
                                 {
                                     "StorageClass": "GLACIER",
-                                    "TransitionInDays": 0
+                                    "TransitionInDays": 1
                                 }
                             ]
                         }

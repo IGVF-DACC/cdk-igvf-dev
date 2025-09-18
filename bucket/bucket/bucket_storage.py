@@ -75,7 +75,7 @@ COPIED_OBJECTS_GLACIER_TRANSITION_RULE = LifecycleRule(
     transitions=[
         Transition(
             storage_class=StorageClass.GLACIER,
-            transition_after=Duration.days(0),
+            transition_after=Duration.days(1),
         )
     ]
 )
