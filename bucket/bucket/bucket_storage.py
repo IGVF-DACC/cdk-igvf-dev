@@ -70,7 +70,7 @@ TAGGED_OBJECTS_GLACIER_TRANSITION_RULE = LifecycleRule(
 )
 
 COPIED_OBJECTS_GLACIER_TRANSITION_RULE = LifecycleRule(
-    id='send-objects-copied-out-to-glacier',
+    id='send-objects-copied-to-open-data-account-to-glacier',
     tag_filters={'copied_to': 'open_data_account'},
     transitions=[
         Transition(

@@ -160,7 +160,7 @@
                             ]
                         },
                         {
-                            "Id": "send-objects-copied-out-to-glacier",
+                            "Id": "send-objects-copied-to-open-data-account-to-glacier",
                             "Status": "Enabled",
                             "TagFilters": [
                                 {
