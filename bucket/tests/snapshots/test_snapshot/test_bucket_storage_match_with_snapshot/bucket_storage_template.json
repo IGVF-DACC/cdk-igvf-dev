@@ -58,19 +58,6 @@
                             "Status": "Enabled"
                         },
                         {
-                            "Id": "OldVersionsToGlacierTransitionRule",
-                            "NoncurrentVersionExpiration": {
-                                "NoncurrentDays": 90
-                            },
-                            "NoncurrentVersionTransitions": [
-                                {
-                                    "StorageClass": "GLACIER",
-                                    "TransitionInDays": 0
-                                }
-                            ],
-                            "Status": "Enabled"
-                        },
-                        {
                             "Id": "TaggedObjectsGlacierTransitionRule",
                             "Status": "Enabled",
                             "TagFilters": [
@@ -352,6 +339,13 @@
                             "ExpirationInDays": 30,
                             "Id": "ThirtyDaysExpirationRule",
                             "Status": "Enabled"
+                        },
+                        {
+                            "AbortIncompleteMultipartUpload": {
+                                "DaysAfterInitiation": 7
+                            },
+                            "Id": "DeleteIncompleteMultipartUploadRule",
+                            "Status": "Enabled"
                         }
                     ]
                 },
@@ -467,6 +461,13 @@
                         {
                             "ExpirationInDays": 30,
                             "Id": "ThirtyDaysExpirationRule",
+                            "Status": "Enabled"
+                        },
+                        {
+                            "AbortIncompleteMultipartUpload": {
+                                "DaysAfterInitiation": 7
+                            },
+                            "Id": "DeleteIncompleteMultipartUploadRule",
                             "Status": "Enabled"
                         }
                     ]
