@@ -133,7 +133,7 @@
                         {
                             "Id": "OldVersionsToGlacierTransitionRule",
                             "NoncurrentVersionExpiration": {
-                                "NoncurrentDays": 90
+                                "NoncurrentDays": 30
                             },
                             "NoncurrentVersionTransitions": [
                                 {
@@ -154,7 +154,7 @@
                             ],
                             "Transitions": [
                                 {
-                                    "StorageClass": "GLACIER",
+                                    "StorageClass": "DEEP_ARCHIVE",
                                     "TransitionInDays": 0
                                 }
                             ]
@@ -170,7 +170,7 @@
                             ],
                             "Transitions": [
                                 {
-                                    "StorageClass": "GLACIER",
+                                    "StorageClass": "DEEP_ARCHIVE",
                                     "TransitionInDays": 1
                                 }
                             ]

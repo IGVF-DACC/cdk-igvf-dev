@@ -55,7 +55,7 @@ NONCURRENT_VERSION_GLACIER_TRANSITION_RULE = LifecycleRule(
             transition_after=Duration.days(0),
         )
     ],
-    noncurrent_version_expiration=Duration.days(90),
+    noncurrent_version_expiration=Duration.days(30),
 )
 
 TAGGED_OBJECTS_GLACIER_TRANSITION_RULE = LifecycleRule(
@@ -63,7 +63,7 @@ TAGGED_OBJECTS_GLACIER_TRANSITION_RULE = LifecycleRule(
     tag_filters={'send_to_glacier': 'true'},
     transitions=[
         Transition(
-            storage_class=StorageClass.GLACIER,
+            storage_class=StorageClass.DEEP_ARCHIVE,
             transition_after=Duration.days(0),
         )
     ]
@@ -74,7 +74,7 @@ COPIED_OBJECTS_GLACIER_TRANSITION_RULE = LifecycleRule(
     tag_filters={'copied_to': 'open_data_account'},
     transitions=[
         Transition(
-            storage_class=StorageClass.GLACIER,
+            storage_class=StorageClass.DEEP_ARCHIVE,
             transition_after=Duration.days(1),
         )
     ]
