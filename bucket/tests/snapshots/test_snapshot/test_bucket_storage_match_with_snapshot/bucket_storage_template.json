@@ -114,7 +114,7 @@
                 "LifecycleConfiguration": {
                     "Rules": [
                         {
-                            "Id": "AllObjectsToIntelligentTieringRule",
+                            "Id": "move-all-objects-to-intelligent-tiering",
                             "Status": "Enabled",
                             "Transitions": [
                                 {
@@ -127,11 +127,11 @@
                             "AbortIncompleteMultipartUpload": {
                                 "DaysAfterInitiation": 7
                             },
-                            "Id": "DeleteIncompleteMultipartUploadRule",
+                            "Id": "delete-incomplete-multipart-uploads",
                             "Status": "Enabled"
                         },
                         {
-                            "Id": "OldVersionsToGlacierTransitionRule",
+                            "Id": "send-old-versions-to-glacier",
                             "NoncurrentVersionExpiration": {
                                 "NoncurrentDays": 30
                             },
@@ -144,7 +144,7 @@
                             "Status": "Enabled"
                         },
                         {
-                            "Id": "TaggedObjectsGlacierTransitionRule",
+                            "Id": "send-tagged-objects-to-glacier",
                             "Status": "Enabled",
                             "TagFilters": [
                                 {
@@ -160,7 +160,7 @@
                             ]
                         },
                         {
-                            "Id": "CopiedObjectsGlacierTransitionRule",
+                            "Id": "send-objects-copied-out-to-glacier",
                             "Status": "Enabled",
                             "TagFilters": [
                                 {
@@ -286,11 +286,11 @@
                             "AbortIncompleteMultipartUpload": {
                                 "DaysAfterInitiation": 7
                             },
-                            "Id": "DeleteIncompleteMultipartUploadRule",
+                            "Id": "delete-incomplete-multipart-uploads",
                             "Status": "Enabled"
                         },
                         {
-                            "Id": "AllObjectsToIntelligentTieringRule",
+                            "Id": "move-all-objects-to-intelligent-tiering",
                             "Status": "Enabled",
                             "Transitions": [
                                 {
@@ -414,11 +414,11 @@
                             "AbortIncompleteMultipartUpload": {
                                 "DaysAfterInitiation": 7
                             },
-                            "Id": "DeleteIncompleteMultipartUploadRule",
+                            "Id": "delete-incomplete-multipart-uploads",
                             "Status": "Enabled"
                         },
                         {
-                            "Id": "AllObjectsToIntelligentTieringRule",
+                            "Id": "move-all-objects-to-intelligent-tiering",
                             "Status": "Enabled",
                             "Transitions": [
                                 {
