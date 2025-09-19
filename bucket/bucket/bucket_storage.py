@@ -249,8 +249,8 @@ class BucketStorage(Stack):
                 )
             ],
             lifecycle_rules=[
-                THIRTY_DAYS_EXPIRATION_RULE,
                 ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE,
+                INTELLIGENT_TIERING_RULE,
             ],
             server_access_logs_bucket=self.private_files_logs_bucket,
             versioned=False,
@@ -281,8 +281,8 @@ class BucketStorage(Stack):
                 )
             ],
             lifecycle_rules=[
-                THIRTY_DAYS_EXPIRATION_RULE,
                 ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE,
+                INTELLIGENT_TIERING_RULE,
             ],
             server_access_logs_bucket=self.public_files_logs_bucket,
             versioned=True,
