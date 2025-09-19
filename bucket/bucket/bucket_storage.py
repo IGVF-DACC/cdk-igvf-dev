@@ -80,6 +80,11 @@ COPIED_OBJECTS_GLACIER_TRANSITION_RULE = LifecycleRule(
     ]
 )
 
+THIRTY_DAYS_EXPIRATION_RULE = LifecycleRule(
+    id='ThirtyDaysExpirationRule',
+    expiration=Duration.days(30),
+)
+
 BROWSER_UPLOAD_CORS = CorsRule(
     allowed_methods=[
         HttpMethods.GET,
@@ -251,10 +256,7 @@ class BucketStorage(Stack):
                 )
             ],
             lifecycle_rules=[
-                INTELLIGENT_TIERING_RULE,
-                ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE,
-                TAGGED_OBJECTS_GLACIER_TRANSITION_RULE,
-                COPIED_OBJECTS_GLACIER_TRANSITION_RULE,
+                THIRTY_DAYS_EXPIRATION_RULE,
             ],
             server_access_logs_bucket=self.private_files_logs_bucket,
             versioned=False,
@@ -285,8 +287,7 @@ class BucketStorage(Stack):
                 )
             ],
             lifecycle_rules=[
-                INTELLIGENT_TIERING_RULE,
-                ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE,
+                THIRTY_DAYS_EXPIRATION_RULE,
             ],
             server_access_logs_bucket=self.public_files_logs_bucket,
             versioned=True,
