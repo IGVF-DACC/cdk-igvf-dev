@@ -199,12 +199,6 @@ class BucketStorage(Stack):
             removal_policy=RemovalPolicy.RETAIN,
             server_access_logs_bucket=self.blobs_logs_bucket,
             versioned=True,
-            lifecycle_rules=[
-                INTELLIGENT_TIERING_RULE,
-                ABORT_INCOMPLETE_MULTIPART_UPLOAD_RULE,
-                TAGGED_OBJECTS_GLACIER_TRANSITION_RULE,
-                COPIED_OBJECTS_GLACIER_TRANSITION_RULE,
-            ]
         )
 
         self.files_logs_bucket = Bucket(
@@ -231,7 +225,7 @@ class BucketStorage(Stack):
                 NONCURRENT_VERSION_GLACIER_TRANSITION_RULE,
                 TAGGED_OBJECTS_GLACIER_TRANSITION_RULE,
                 COPIED_OBJECTS_GLACIER_TRANSITION_RULE,
-            ]
+            ],
         )
 
         self.private_files_logs_bucket = Bucket(
@@ -304,7 +298,7 @@ class BucketStorage(Stack):
             actions=[
                 's3:List*',
                 's3:Get*',
-            ]
+            ],
         )
 
         self.public_files_bucket.add_to_resource_policy(
@@ -324,7 +318,7 @@ class BucketStorage(Stack):
                 resources=[
                     self.public_files_bucket.bucket_arn,
                     self.public_files_bucket.arn_for_objects('*'),
-                ]
+                ],
             )
         )
 
@@ -337,7 +331,7 @@ class BucketStorage(Stack):
                 resources=[
                     self.private_files_bucket.bucket_arn,
                     self.private_files_bucket.arn_for_objects('*'),
-                ]
+                ],
             )
         )
 
@@ -358,7 +352,7 @@ class BucketStorage(Stack):
                 's3:GetObjectVersion',
                 's3:ListBucket',
                 's3:PutObjectTagging'
-            ]
+            ],
         )
 
         self.files_bucket.add_to_resource_policy(
