@@ -71,7 +71,7 @@
             "Properties": {
                 "Code": {
                     "S3Bucket": "cdk-hnb659fds-assets-testing-testing",
-                    "S3Key": "cd3424df47fab42a58c01d6f4b2ad8dfc8e0f97d024c614ee30f743563217cb3.zip"
+                    "S3Key": "bc34587407a610a10f73bca0d0202c58a2c92f1f1f248a1e01fd1f7acbfb80f0.zip"
                 },
                 "Environment": {
                     "Variables": {
@@ -89,7 +89,7 @@
                         "Arn"
                     ]
                 },
-                "Runtime": "python3.9",
+                "Runtime": "python3.14",
                 "Timeout": 60
             },
             "Type": "AWS::Lambda::Function"
@@ -175,6 +175,20 @@
             },
             "Type": "AWS::IAM::Policy"
         },
+        "DeleteBranchWebhookinvokefunctionB115BD83": {
+            "Properties": {
+                "Action": "lambda:InvokeFunction",
+                "FunctionName": {
+                    "Fn::GetAtt": [
+                        "DeleteBranchWebhook450DDFCD",
+                        "Arn"
+                    ]
+                },
+                "InvokedViaFunctionUrl": true,
+                "Principal": "*"
+            },
+            "Type": "AWS::Lambda::Permission"
+        },
         "DeleteBranchWebhookinvokefunctionurl391B2D4B": {
             "Properties": {
                 "Action": "lambda:InvokeFunctionUrl",
@@ -197,7 +211,7 @@
             "Properties": {
                 "Code": {
                     "S3Bucket": "cdk-hnb659fds-assets-testing-testing",
-                    "S3Key": "1a9436b4b3910528f4e13ed2dd52eecbdab487c19f950f865e339e6d6fdee524.zip"
+                    "S3Key": "8d43dda9903d013c8532e9b60f56685532ae486477984d4f22d26758cd35867f.zip"
                 },
                 "Environment": {
                     "Variables": {
@@ -213,7 +227,7 @@
                         "Arn"
                     ]
                 },
-                "Runtime": "python3.9",
+                "Runtime": "python3.14",
                 "Timeout": 120
             },
             "Type": "AWS::Lambda::Function"
@@ -293,7 +307,7 @@
             "Properties": {
                 "Code": {
                     "S3Bucket": "cdk-hnb659fds-assets-testing-testing",
-                    "S3Key": "d9ad14052775049ff6a00e4dac49150460fcb1541d49c7513bf0c1b9faa7a9a4.zip"
+                    "S3Key": "fb7df35fb21559963c22892a0b7d691a6d6852b435160bbd17f5f80ee19d76de.zip"
                 },
                 "Handler": "increment.increment_counter",
                 "Role": {
@@ -302,7 +316,7 @@
                         "Arn"
                     ]
                 },
-                "Runtime": "python3.9",
+                "Runtime": "python3.14",
                 "Timeout": 60
             },
             "Type": "AWS::Lambda::Function"
@@ -339,6 +353,7 @@
             "Type": "AWS::IAM::Role"
         },
         "StateMachine2E01A3A5": {
+            "DeletionPolicy": "Delete",
             "DependsOn": [
                 "StateMachineRoleDefaultPolicyDF1E6607",
                 "StateMachineRoleB840431D"
@@ -348,14 +363,14 @@
                     "Fn::Join": [
                         "",
                         [
-                            "{\"StartAt\":\"GetStacksToDelete\",\"States\":{\"GetStacksToDelete\":{\"Next\":\"InitializeCounter\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"ResultSelector\":{\"stacks_to_delete.$\":\"$\"},\"Resource\":\"",
+                            "{\"StartAt\":\"GetStacksToDelete\",\"States\":{\"GetStacksToDelete\":{\"Next\":\"InitializeCounter\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"ResultSelector\":{\"stacks_to_delete.$\":\"$\"},\"Resource\":\"",
                             {
                                 "Fn::GetAtt": [
                                     "GetStacksToDeleteLambda159BF9A1",
                                     "Arn"
                                 ]
                             },
-                            "\"},\"InitializeCounter\":{\"Type\":\"Pass\",\"Result\":{\"index\":0,\"step\":1,\"count\":6},\"ResultPath\":\"$.iterator\",\"Next\":\"MapStacks\"},\"MapStacks\":{\"Type\":\"Map\",\"Next\":\"Succeed\",\"Parameters\":{\"stack_to_delete.$\":\"$$.Map.Item.Value\",\"iterator.$\":\"$.iterator\"},\"Iterator\":{\"StartAt\":\"IncrementCounter\",\"States\":{\"IncrementCounter\":{\"Next\":\"DeleteStack\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"ResultPath\":\"$.iterator\",\"Resource\":\"",
+                            "\"},\"InitializeCounter\":{\"Type\":\"Pass\",\"Result\":{\"index\":0,\"step\":1,\"count\":6},\"ResultPath\":\"$.iterator\",\"Next\":\"MapStacks\"},\"MapStacks\":{\"Type\":\"Map\",\"Next\":\"Succeed\",\"Parameters\":{\"stack_to_delete.$\":\"$$.Map.Item.Value\",\"iterator.$\":\"$.iterator\"},\"ItemsPath\":\"$.stacks_to_delete\",\"MaxConcurrency\":50,\"Iterator\":{\"StartAt\":\"IncrementCounter\",\"States\":{\"IncrementCounter\":{\"Next\":\"DeleteStack\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"ResultPath\":\"$.iterator\",\"Resource\":\"",
                             {
                                 "Fn::GetAtt": [
                                     "IncrementCounterLambda27A5F523",
@@ -374,7 +389,7 @@
                             {
                                 "Ref": "AWS::Partition"
                             },
-                            ":states:::events:putEvents\",\"Parameters\":{\"Entries\":[{\"Detail.$\":\"$.detail\",\"DetailType.$\":\"$.detailType\",\"Source.$\":\"$.source\"}]}},\"MakeSuccessMessage\":{\"Type\":\"Pass\",\"Parameters\":{\"detailType\":\"StackDeleteCompleted\",\"source\":\"cdk-igvf-dev.cleaner.DemoCleaner\",\"detail\":{\"metadata\":{\"includes_slack_notification\":true},\"data\":{\"slack\":{\"text.$\":\"States.Format(':white_check_mark: *StackDeleteSucceeded* | {}', $.stack_to_delete)\"}}}},\"Next\":\"SendSlackNotification\"},\"DeleteSuccessful\":{\"Type\":\"Pass\",\"Next\":\"MakeSuccessMessage\"}}},\"ItemsPath\":\"$.stacks_to_delete\",\"MaxConcurrency\":50},\"Succeed\":{\"Type\":\"Succeed\"}}}"
+                            ":states:::events:putEvents\",\"Parameters\":{\"Entries\":[{\"Detail.$\":\"$.detail\",\"DetailType.$\":\"$.detailType\",\"Source.$\":\"$.source\"}]}},\"MakeSuccessMessage\":{\"Type\":\"Pass\",\"Parameters\":{\"detailType\":\"StackDeleteCompleted\",\"source\":\"cdk-igvf-dev.cleaner.DemoCleaner\",\"detail\":{\"metadata\":{\"includes_slack_notification\":true},\"data\":{\"slack\":{\"text.$\":\"States.Format(':white_check_mark: *StackDeleteSucceeded* | {}', $.stack_to_delete)\"}}}},\"Next\":\"SendSlackNotification\"},\"DeleteSuccessful\":{\"Type\":\"Pass\",\"Next\":\"MakeSuccessMessage\"}}}},\"Succeed\":{\"Type\":\"Succeed\"}}}"
                         ]
                     ]
                 },
@@ -385,7 +400,8 @@
                     ]
                 }
             },
-            "Type": "AWS::StepFunctions::StateMachine"
+            "Type": "AWS::StepFunctions::StateMachine",
+            "UpdateReplacePolicy": "Delete"
         },
         "StateMachineEventsRoleDBCDECD1": {
             "Properties": {
@@ -435,7 +451,7 @@
                             "Action": "sts:AssumeRole",
                             "Effect": "Allow",
                             "Principal": {
-                                "Service": "states.testing.amazonaws.com"
+                                "Service": "states.amazonaws.com"
                             }
                         }
                     ],
